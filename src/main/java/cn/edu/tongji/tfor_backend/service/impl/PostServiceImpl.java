@@ -1,7 +1,9 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 import cn.edu.tongji.tfor_backend.model.AdvertisementEntity;
+import cn.edu.tongji.tfor_backend.model.CommentEntity;
 import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.repository.AdvertisementEntityRepository;
+import cn.edu.tongji.tfor_backend.repository.CommentEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
 import cn.edu.tongji.tfor_backend.service.PostService;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class PostServiceImpl implements PostService {
 
     @Resource
     AdvertisementEntityRepository advertisementEntityRepository;
+
+    @Resource
+    CommentEntityRepository commentEntityRepository;
 
     @Override
     public int postContent(PostEntity p) {
@@ -52,6 +57,45 @@ public class PostServiceImpl implements PostService {
 
         advertisementEntityRepository.save(newAdver);
 
+        return 0;
+    }
+
+    @Override
+    public int postComment(CommentEntity c) {
+        CommentEntity newComment = new CommentEntity();
+
+        newComment.setUserId(c.getUserId());
+        newComment.setLikeNum(0);
+        newComment.setCommentNum(0);
+        Timestamp now= new Timestamp(System.currentTimeMillis());//get the current system time
+        newComment.setLastEditTime(now);
+        newComment.setText(c.getText());
+        newComment.setPicture(c.getPicture());
+        newComment.setReportNum(0);
+        newComment.setReviewState("Not Reviewed");
+        newComment.setLabel("Normal");
+        newComment.setFatherContentId(c.getFatherContentId());
+        newComment.setFatherType(c.getFatherType());
+        commentEntityRepository.save(newComment);
+
+        return 0;
+    }
+
+    @Override
+    public int deleteContent(int contentId) {
+        postEntityRepository.delete(postEntityRepository.getById(contentId));
+        return 0;
+    }
+
+    @Override
+    public int deleteAdvertisement(int contentId) {
+        advertisementEntityRepository.delete(advertisementEntityRepository.getById(contentId));
+        return 0;
+    }
+
+    @Override
+    public int deleteComment(int contentId) {
+        commentEntityRepository.delete(commentEntityRepository.getById(contentId));
         return 0;
     }
 }
