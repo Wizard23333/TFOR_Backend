@@ -2,6 +2,7 @@ package cn.edu.tongji.tfor_backend.service;
 
 
 import cn.edu.tongji.tfor_backend.model.ZoneEntity;
+import lombok.Data;
 
 import java.util.List;
 
@@ -9,5 +10,6 @@ import java.util.List;
 public interface ZoneInfoService {
 
     List<ZoneEntity> getAllZones();
+
 
 }

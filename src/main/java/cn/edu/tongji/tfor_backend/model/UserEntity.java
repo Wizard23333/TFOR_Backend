@@ -27,6 +27,7 @@ public class UserEntity {
         this.userId = userId;
     }
 
+    @Basic
     @Id
     @Column(name = "user_name")
     public String getUserName() {
