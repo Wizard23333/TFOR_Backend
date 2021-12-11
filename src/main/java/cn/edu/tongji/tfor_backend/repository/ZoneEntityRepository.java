@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface ZoneEntityRepository extends JpaRepository<ZoneEntity, Integer>{
 
-
-
-
     @Query("from ZoneEntity") // simplified sql of (select * from ZoneEntity)
     List<ZoneEntity> findAllZones();
 

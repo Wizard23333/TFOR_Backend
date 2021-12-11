@@ -8,6 +8,7 @@ import javax.persistence.*;
 public class AdminstratorEntity {
     private int admId;
     private String admPwd;
+    private String admType;
 
     @Id
     @Column(name = "adm_id")
@@ -47,5 +48,15 @@ public class AdminstratorEntity {
         int result = admId;
         result = 31 * result + (admPwd != null ? admPwd.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "adm_type")
+    public String getAdmType() {
+        return admType;
+    }
+
+    public void setAdmType(String admType) {
+        this.admType = admType;
     }
 }
