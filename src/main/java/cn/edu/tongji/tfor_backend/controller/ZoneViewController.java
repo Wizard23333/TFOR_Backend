@@ -28,6 +28,4 @@ public class ZoneViewController {
         return new ResponseEntity<>(zoneInfoService.getAllZones(), HttpStatus.OK);
     }
 
-
-
 }
