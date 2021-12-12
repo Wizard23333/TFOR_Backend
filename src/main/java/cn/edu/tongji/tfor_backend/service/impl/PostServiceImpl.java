@@ -7,6 +7,7 @@ import cn.edu.tongji.tfor_backend.repository.CommentEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
 import cn.edu.tongji.tfor_backend.service.PostService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -82,7 +83,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public int deleteContent(int contentId) {
+        commentEntityRepository.deleteCommentOfPost(contentId);
         postEntityRepository.delete(postEntityRepository.getById(contentId));
         return 0;
     }
@@ -94,7 +97,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public int deleteComment(int contentId) {
+        commentEntityRepository.deleteCommentOfComment(contentId);
         commentEntityRepository.delete(commentEntityRepository.getById(contentId));
         return 0;
     }
