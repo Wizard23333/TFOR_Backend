@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -18,29 +19,26 @@ public class UserInfoServiceImpl implements UserInfoService {
         userEntityRepository.save(newUser);
     }
 
+    //判断用户id是否存在
     @Override
-    public String loginByPwd(int uid, String pwd){
-        if(userEntityRepository.existsById(uid)){
-            //返回token
-            return "1";
-        }
-        return "0";
+    public boolean existById(int uid){
+        return userEntityRepository.existsById(uid);
+    }
+
+    //通过用户id获取密码
+    @Override
+    public String getPwdById(int uid){
+        return userEntityRepository.getPwdById(uid);
     }
 
     @Override
-    public String loginByEmail(String email){
-        if (userEntityRepository.ifExistsByEmail(email)!=0){
-            return "1";
+    public boolean loginByPwd(int uid, String pwd){
+        //用户存在
+        if (userEntityRepository.existsById(uid)){
+            String realPwd = userEntityRepository.getPwdById(uid);
+            return Objects.equals(pwd, realPwd);
         }
-        return "0";
-    }
-
-    @Override
-    public String loginByTel(String tel){
-        if (userEntityRepository.ifExistsByTel(tel)!=0){
-            return "1";
-        }
-        return "0";
+        return false;
     }
 
     @Override

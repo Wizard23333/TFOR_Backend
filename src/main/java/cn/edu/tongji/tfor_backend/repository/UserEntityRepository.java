@@ -8,6 +8,18 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface UserEntityRepository extends JpaRepository<UserEntity, Integer> {
+    //获取用户密码
+    @Query(value = "select user_pwd from user where user_id=:uid", nativeQuery = true)
+    String getPwdById(@Param("uid") int uid);
+
+    //通过邮箱获取用户id
+    @Query(value = "select user_id from user where user_email=:email", nativeQuery = true)
+    int getUidByEmail(@Param("email") String email);
+
+    //通过电话获取用户id
+    @Query(value = "select user_id from user where user_tel=:telNbr", nativeQuery = true)
+    int getUidByTel(@Param("telNbr") String telNbr);
+
     //修改用户姓名
     @Modifying
     @Query(value = "update user set user_name=:newUserName where user_id=:uid", nativeQuery = true)
