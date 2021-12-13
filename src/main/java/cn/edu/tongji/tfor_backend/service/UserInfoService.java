@@ -5,13 +5,13 @@ import cn.edu.tongji.tfor_backend.model.UserEntity;
 
 public interface UserInfoService {
 
+    boolean existById(int uid);
+
+    String getPwdById(int uid);
+
     void createUserByObject(UserEntity newUser);
 
-    String loginByPwd(int uid, String pwd);
-
-    String loginByEmail(String email);
-
-    String loginByTel(String tel);
+    boolean loginByPwd(int uid, String pwd);
 
     void changeUserName(int uid, String userName);
 
