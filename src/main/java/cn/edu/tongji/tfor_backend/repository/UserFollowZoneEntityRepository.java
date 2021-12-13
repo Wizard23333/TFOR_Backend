@@ -4,6 +4,5 @@ import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntityPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserFollowZoneEntityRepository extends JpaRepository<UserFollowZoneEntity, Integer> {
-
+public interface UserFollowZoneEntityRepository extends JpaRepository<UserFollowZoneEntity, UserFollowZoneEntityPK> {
 }

@@ -1,5 +1,7 @@
 package cn.edu.tongji.tfor_backend.controller;
 
+import cn.edu.tongji.tfor_backend.model.UserCollectionEntity;
+import cn.edu.tongji.tfor_backend.model.UserFollowUserEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntity;
 import cn.edu.tongji.tfor_backend.service.ActionService;
 import io.swagger.annotations.Api;
@@ -20,9 +22,20 @@ public class ActionController {
     ActionService actionService;
 
     @PostMapping(value="followZone")
-    public ResponseEntity<Object> postContent(@RequestBody UserFollowZoneEntity userFollowZoneEntity) {
+    public ResponseEntity<Object> followZone(@RequestBody UserFollowZoneEntity userFollowZoneEntity) {
         return new ResponseEntity<>(actionService.followZone(userFollowZoneEntity), HttpStatus.OK);
     }
+
+    @PostMapping(value = "collectPost")
+    public ResponseEntity<Object> collectPost(@RequestBody UserCollectionEntity userCollectionEntity) {
+        return new ResponseEntity<>(actionService.collectPost(userCollectionEntity), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "followUser")
+    public ResponseEntity<Object> followUser(@RequestBody UserFollowUserEntity userFollowUserEntity) {
+        return new ResponseEntity<>(actionService.followUser(userFollowUserEntity), HttpStatus.OK);
+    }
+
 
 
 
