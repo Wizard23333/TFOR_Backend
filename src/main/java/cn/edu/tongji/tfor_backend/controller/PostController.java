@@ -3,6 +3,7 @@ package cn.edu.tongji.tfor_backend.controller;
 import cn.edu.tongji.tfor_backend.model.AdvertisementEntity;
 import cn.edu.tongji.tfor_backend.model.CommentEntity;
 import cn.edu.tongji.tfor_backend.model.PostEntity;
+import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
 import cn.edu.tongji.tfor_backend.service.PostService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 
 @RestController
 @RequestMapping("api/post")
@@ -19,32 +21,68 @@ public class PostController {
     PostService postService;
 
     @PostMapping(value="postContent")
-    public ResponseEntity<Object> postContent(@RequestBody PostEntity newPost) {
-        return new ResponseEntity<>(postService.postContent(newPost), HttpStatus.OK);
+    public HttpResponse postContent(@RequestBody PostEntity newPost) {
+        try {
+            postService.postContent(newPost);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Post successfully");
     }
 
     @PostMapping(value = "postAdvertisement")
-    public ResponseEntity<Object> postAdvertisement(@RequestBody AdvertisementEntity newAdver) {
-        return new ResponseEntity<>(postService.postAdvertisement(newAdver), HttpStatus.OK);
+    public HttpResponse postAdvertisement(@RequestBody AdvertisementEntity newAdver) {
+        try {
+            postService.postAdvertisement(newAdver);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Post successfully");
     }
 
     @PostMapping(value = "postComment")
-    public ResponseEntity<Object> postComment(@RequestBody CommentEntity newComment) {
-        return new ResponseEntity<>(postService.postComment(newComment), HttpStatus.OK);
+    public HttpResponse postComment(@RequestBody CommentEntity newComment) {
+        try {
+            postService.postComment(newComment);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Post successfully");
     }
 
     @DeleteMapping(value = "deleteContent")
-    public ResponseEntity<Object> deleteContent(Integer contentId) {
-        return new ResponseEntity<Object>(postService.deleteContent(contentId), HttpStatus.OK);
+    public HttpResponse deleteContent(Integer contentId) {
+        try {
+            postService.deleteContent(contentId);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Delete successfully");
     }
 
     @DeleteMapping(value = "deleteAdvertisement")
-    public ResponseEntity<Object> deleteAdvertisement(Integer contentId) {
-        return new ResponseEntity<Object>(postService.deleteAdvertisement(contentId), HttpStatus.OK);
+    public HttpResponse deleteAdvertisement(Integer contentId) {
+        try {
+            postService.deleteAdvertisement(contentId);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Delete successfully");
     }
 
     @DeleteMapping(value = "deleteComment")
-    public ResponseEntity<Object> deleteComment(Integer contentId) {
-        return new ResponseEntity<Object>(postService.deleteComment(contentId), HttpStatus.OK);
+    public HttpResponse deleteComment(Integer contentId) {
+        try {
+            postService.deleteComment(contentId);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Delete successfully");
     }
 }
