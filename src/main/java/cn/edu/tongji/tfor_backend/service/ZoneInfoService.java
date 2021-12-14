@@ -11,14 +11,16 @@ public interface ZoneInfoService {
 
     List<ZoneEntity> getAllZones();
 
-    List<PostSimpleInfo> getRecommend();
+    // select recommend post from user's followed zones
+    List<PostSimpleInfo> getRecommend(Integer userId);
+
+    // 
 
     @Data
     class PostSimpleInfo{
         String postTitle;
-        String postId;
-        String userId;
+        Integer postId;
+        Integer userId;
         Integer likeNum;
     }
-
 }
