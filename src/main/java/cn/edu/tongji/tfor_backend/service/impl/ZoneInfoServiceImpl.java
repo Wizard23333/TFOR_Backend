@@ -12,9 +12,10 @@ import cn.edu.tongji.tfor_backend.service.ZoneInfoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 // implements of the service interface
@@ -39,6 +40,10 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
     public List<PostSimpleInfo> getRecommend(Integer userId) {
         // 关注分区的列表
         List<UserFollowZoneEntity> userFollowZoneEntityList = userFollowZoneEntityRepository.findByUserId(userId);
+        // 如果没有关注的分区的话， 直接返回热榜
+        if (userFollowZoneEntityList.size() == 0) {
+            return this.getRank(3);
+        }
         List<PostSimpleInfo> recommendList = new ArrayList<>();
         // 每个分区的推荐条数
         int numOfEachZone = (int) Math.ceil(50.0 / userFollowZoneEntityList.size());
@@ -55,6 +60,37 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
         return recommendList;
     }
 
+    @Override
+    public List<PostSimpleInfo> getRank(Integer day) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 时间格式
+
+        Timestamp timestamp1 = new Timestamp(System.currentTimeMillis()); // 当前的时间戳
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(timestamp1);
+        System.out.format(df.format(calendar.getTime()));
+        calendar.add(Calendar.DAY_OF_MONTH, -day);
+        Timestamp timestamp2 = new Timestamp(calendar.getTime().getTime()); // day 天前的时间戳
+        System.out.format(df.format(calendar.getTime()));
+
+        List<PostSimpleInfo> rankList = this.getPostInfoListByPostList(
+                postEntityRepository.findTop50ByLastEditTimeBetweenOrderByLikeNumDesc(timestamp2, timestamp1)
+        );
+        return rankList;
+    }
+
+    @Override
+    public List<PostSimpleInfo> search(String keyword) {
+        return this.getPostInfoListByPostList(
+                postEntityRepository.findByPostTitleContainingOrTextContaining(
+                        keyword, keyword
+                ));
+    }
+
+    @Override
+    public PostEntity getByPostId(Integer postId) {
+        return postEntityRepository.findByContentId(postId);
+    }
+
     // 根据contentId获取帖子简略信息
     private List<PostSimpleInfo> getPostInfoListByContentIdList(List<ZoneOwnPostEntity> zoneOwnPostEntityList) {
         List<PostSimpleInfo> list = new ArrayList<>();
@@ -69,4 +105,20 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
         }
         return list;
     }
+
+    // 根据帖子详细信息得到简略信息
+    private List<PostSimpleInfo> getPostInfoListByPostList(List<PostEntity> postEntityList) {
+        List<PostSimpleInfo> postSimpleInfos = new ArrayList<>();
+        for (PostEntity item : postEntityList) {
+            PostSimpleInfo postSimpleInfo = new PostSimpleInfo();
+            postSimpleInfo.setPostId(item.getContentId());
+            postSimpleInfo.setPostTitle(item.getPostTitle());
+            postSimpleInfo.setUserId(item.getUserId());
+            postSimpleInfo.setLikeNum(item.getLikeNum());
+            postSimpleInfos.add(postSimpleInfo);
+        }
+        return postSimpleInfos;
+    }
+
+
 }
