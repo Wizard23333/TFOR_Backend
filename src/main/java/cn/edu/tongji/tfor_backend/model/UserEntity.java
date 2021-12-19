@@ -2,10 +2,10 @@ package cn.edu.tongji.tfor_backend.model;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "seDB", catalog = "")
-@IdClass(UserEntityPK.class)
 public class UserEntity {
     private int userId;
     private String userName;
@@ -28,7 +28,6 @@ public class UserEntity {
     }
 
     @Basic
-    @Id
     @Column(name = "user_name")
     public String getUserName() {
         return userName;
@@ -112,33 +111,14 @@ public class UserEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         UserEntity that = (UserEntity) o;
-
-        if (userId != that.userId) return false;
-        if (userGender != that.userGender) return false;
-        if (userFollowingNum != that.userFollowingNum) return false;
-        if (userFollowedNum != that.userFollowedNum) return false;
-        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
-        if (userPwd != null ? !userPwd.equals(that.userPwd) : that.userPwd != null) return false;
-        if (userEmail != null ? !userEmail.equals(that.userEmail) : that.userEmail != null) return false;
-        if (userTel != null ? !userTel.equals(that.userTel) : that.userTel != null) return false;
-        if (!Arrays.equals(userImage, that.userImage)) return false;
-
-        return true;
+        return userId == that.userId && userGender == that.userGender && userFollowingNum == that.userFollowingNum && userFollowedNum == that.userFollowedNum && Objects.equals(userName, that.userName) && Objects.equals(userPwd, that.userPwd) && Objects.equals(userEmail, that.userEmail) && Objects.equals(userTel, that.userTel) && Arrays.equals(userImage, that.userImage);
     }
 
     @Override
     public int hashCode() {
-        int result = userId;
-        result = 31 * result + (userName != null ? userName.hashCode() : 0);
-        result = 31 * result + (int) userGender;
-        result = 31 * result + (userPwd != null ? userPwd.hashCode() : 0);
-        result = 31 * result + (userEmail != null ? userEmail.hashCode() : 0);
-        result = 31 * result + (userTel != null ? userTel.hashCode() : 0);
+        int result = Objects.hash(userId, userName, userGender, userPwd, userEmail, userTel, userFollowingNum, userFollowedNum);
         result = 31 * result + Arrays.hashCode(userImage);
-        result = 31 * result + userFollowingNum;
-        result = 31 * result + userFollowedNum;
         return result;
     }
 }
