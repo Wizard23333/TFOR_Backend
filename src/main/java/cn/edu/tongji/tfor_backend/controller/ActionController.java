@@ -1,17 +1,17 @@
 package cn.edu.tongji.tfor_backend.controller;
 
+import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
+import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.UserCollectionEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowUserEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntity;
 import cn.edu.tongji.tfor_backend.service.ActionService;
 import io.swagger.annotations.Api;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import cn.edu.tongji.tfor_backend.service.ActionService;
 @RestController
 @RequestMapping("api/action")
@@ -22,19 +22,57 @@ public class ActionController {
     ActionService actionService;
 
     @PostMapping(value="followZone")
-    public ResponseEntity<Object> followZone(@RequestBody UserFollowZoneEntity userFollowZoneEntity) {
-        return new ResponseEntity<>(actionService.followZone(userFollowZoneEntity), HttpStatus.OK);
+    public HttpResponse followZone(@RequestBody UserFollowZoneEntity userFollowZoneEntity) {
+        try {
+            actionService.followZone(userFollowZoneEntity);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Follow successfully");
     }
 
     @PostMapping(value = "collectPost")
-    public ResponseEntity<Object> collectPost(@RequestBody UserCollectionEntity userCollectionEntity) {
-        return new ResponseEntity<>(actionService.collectPost(userCollectionEntity), HttpStatus.OK);
+    public HttpResponse collectPost(@RequestBody UserCollectionEntity userCollectionEntity) {
+        try {
+            actionService.collectPost(userCollectionEntity);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Collect successfully");
     }
 
     @PostMapping(value = "followUser")
-    public ResponseEntity<Object> followUser(@RequestBody UserFollowUserEntity userFollowUserEntity) {
-        return new ResponseEntity<>(actionService.followUser(userFollowUserEntity), HttpStatus.OK);
+    public HttpResponse followUser(@RequestBody UserFollowUserEntity userFollowUserEntity) {
+        try {
+            actionService.followUser(userFollowUserEntity);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success("Follow successfully");
     }
+
+    @DeleteMapping(value = "cancelFollowZone")
+    public HttpResponse cancelFollowZone(Integer userId, Integer zoneId) {
+        System.out.println(zoneId);
+        actionService.cancelFollowZone(userId,zoneId);
+        return HttpResponse.success("cancel follow successfully");
+    }
+
+    @DeleteMapping(value = "cancelFollowUser")
+    public HttpResponse cancelFollowUser(Integer userId1, Integer userId2) {
+        actionService.cancelFollowUser(userId1,userId2);
+        return HttpResponse.success("cancel follow successfully");
+    }
+
+    @DeleteMapping(value = "cancelCollectPost")
+    public HttpResponse cancelCollectPost(Integer userId, Integer postId) {
+        actionService.cancelCollectPost(userId,postId);
+        return HttpResponse.success("cancel follow successfully");
+    }
+
 
 
 

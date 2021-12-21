@@ -12,4 +12,10 @@ public interface ActionService {
     int collectPost(UserCollectionEntity userCollectionEntity);
 
     int followUser(UserFollowUserEntity userFollowUserEntity);
+
+    int cancelFollowZone(int uid,int zid);
+
+    int cancelCollectPost(int uid,int cid);
+
+    int cancelFollowUser(int uid1,int uid2);
 }
