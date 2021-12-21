@@ -41,5 +41,24 @@ public class ActionServiceImpl implements ActionService {
         return 0;
     }
 
+    @Override
+    public int cancelFollowZone(int uid,int zid) {
+        System.out.println(uid);
+        userFollowZoneEntityRepository.deleteByUserIdAndZoneId(uid,zid);
+        return 0;
+    }
+
+    @Override
+    public int cancelCollectPost(int uid,int cid) {
+        userCollectionEntityRepository.deleteByUidAndCid(uid,cid);
+        return 0;
+    }
+
+    @Override
+    public int cancelFollowUser(int uid1,int uid2) {
+        userFollowUserEntityRepository.deleteByUsersId(uid1,uid2);
+        return 0;
+    }
+
 
 }
