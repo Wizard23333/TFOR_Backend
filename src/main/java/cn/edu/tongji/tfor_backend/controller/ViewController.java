@@ -39,6 +39,12 @@ public class ViewController {
         return new ResponseEntity<>(zoneInfoService.getRank(day), HttpStatus.OK);
     }
 
+    @Operation(summary = "get post list by zoneId")
+    @GetMapping("getPostList/{zoneId}")
+    public ResponseEntity<Object> getPostListByZoneId(@PathVariable Integer zoneId) {
+        return new ResponseEntity<>(zoneInfoService.getByZoneId(zoneId), HttpStatus.OK);
+    }
+
     @Operation(summary = "get post lists by certain a key word ")
     @GetMapping("search/{keyword}")
     public ResponseEntity<Object> getPostListByKeyword(@PathVariable String keyword) {
@@ -55,6 +61,8 @@ public class ViewController {
         }
 
     }
+
+
 
 
 }
