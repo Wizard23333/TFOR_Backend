@@ -42,6 +42,7 @@ public class UserController {
 
     //用户使用密码登录
     //登录成功返回token，目前还未写好
+    @Operation(summary = "INPUT PARAM:[uid],[pwd]")
     @PostMapping("login/pwd")
     public ResponseEntity<JSONObject> loginByPwd(@RequestBody JSONObject jsonObject) {
         int uid = Integer.parseInt(jsonObject.getString("uid"));
@@ -56,6 +57,7 @@ public class UserController {
     }
 
     //用户使用邮箱验证码登录
+    @Operation(summary = "INPUT PARAM:[email],[verifyCode]")
     @PostMapping("login/email")
     public ResponseEntity<JSONObject> loginByEmail(@RequestBody JSONObject jsonObject) {
         String email = jsonObject.getString("email");
@@ -72,6 +74,7 @@ public class UserController {
     }
 
     //用户使用短信验证码登录
+    @Operation(summary = "INPUT PARAM:[tel],[verifyCode]")
     @PostMapping("login/tel")
     public ResponseEntity<JSONObject> loginByTel(@RequestBody JSONObject jsonObject) {
         String tel = jsonObject.getString("tel");
@@ -88,6 +91,7 @@ public class UserController {
 
     //用户修改其他个人信息
     //使用JSONObject作为形参更加灵活
+    @Operation(summary = "INPUT PARAM:[uid],[userName],[userGender],[userImage].后面3个选项可选")
     @PutMapping("modify")
     public void modifyUserInfo(@RequestBody JSONObject jsonObject){
         int uid = Integer.parseInt(jsonObject.getString("uid"));
@@ -100,10 +104,11 @@ public class UserController {
     }
 
     //用户修改手机号信息
+    @Operation(summary = "INPUT PARAM:[uid],[telNum],[verifyCode]")
     @PutMapping("changePhoneNbr")
     public void changePhoneNbr(@RequestBody JSONObject jsonObject){
         int uid = Integer.parseInt(jsonObject.getString("uid"));
-        String newTelNbr = jsonObject.getString("tel_num");
+        String newTelNbr = jsonObject.getString("telNum");
         String verifyCode = jsonObject.getString("verifyCode");
         String telVerifyCode = telephoneService.getTelVerifyCode();
         if (Objects.equals(verifyCode, telVerifyCode)){
@@ -112,6 +117,7 @@ public class UserController {
     }
 
     //用户修改邮箱号信息
+    @Operation(summary = "INPUT PARAM:[uid],[email],[verifyCode]")
     @PutMapping("changeEmail")
     public void changeEmail(@RequestBody JSONObject jsonObject){
         int uid = Integer.parseInt(jsonObject.getString("uid"));
