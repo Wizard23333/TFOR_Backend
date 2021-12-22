@@ -87,11 +87,16 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
     }
 
     @Override
+    public List<PostSimpleInfo> getByZoneId(Integer zoneId) {
+        return this.getPostInfoListByContentIdList(zoneOwnPostEntityRepository.findByZoneId(zoneId));
+    }
+
+    @Override
     public PostEntity getByPostId(Integer postId) {
         return postEntityRepository.findByContentId(postId);
     }
 
-    // 根据contentId获取帖子简略信息
+    // 根据ZoneOwnPostEntity获取帖子简略信息
     private List<PostSimpleInfo> getPostInfoListByContentIdList(List<ZoneOwnPostEntity> zoneOwnPostEntityList) {
         List<PostSimpleInfo> list = new ArrayList<>();
         for (ZoneOwnPostEntity item : zoneOwnPostEntityList) {
