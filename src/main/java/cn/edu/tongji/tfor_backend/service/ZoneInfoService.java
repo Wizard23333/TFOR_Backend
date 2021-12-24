@@ -22,6 +22,8 @@ public interface ZoneInfoService {
 
     List<PostSimpleInfo> search(String keyword);
 
+    List<PostSimpleInfo> getByZoneId(Integer zoneId);
+
     PostEntity getByPostId(Integer postId);
 
     @Data
