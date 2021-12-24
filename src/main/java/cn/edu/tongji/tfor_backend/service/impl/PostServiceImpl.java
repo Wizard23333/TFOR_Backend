@@ -1,10 +1,9 @@
 package cn.edu.tongji.tfor_backend.service.impl;
-import cn.edu.tongji.tfor_backend.model.AdvertisementEntity;
-import cn.edu.tongji.tfor_backend.model.CommentEntity;
-import cn.edu.tongji.tfor_backend.model.PostEntity;
+import cn.edu.tongji.tfor_backend.model.*;
 import cn.edu.tongji.tfor_backend.repository.AdvertisementEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.CommentEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
+import cn.edu.tongji.tfor_backend.repository.ZoneOwnPostEntityRepository;
 import cn.edu.tongji.tfor_backend.service.PostService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +23,9 @@ public class PostServiceImpl implements PostService {
     @Resource
     CommentEntityRepository commentEntityRepository;
 
+    @Resource
+    ZoneOwnPostEntityRepository zoneOwnPostEntityRepository;
+
     @Override
     public int postContent(PostEntity p) {
         PostEntity newPost = new PostEntity();
@@ -39,9 +41,14 @@ public class PostServiceImpl implements PostService {
         newPost.setLabel("Normal");
         newPost.setPostTitle(p.getPostTitle());
         newPost.setVideo(p.getVideo());
-
         postEntityRepository.save(newPost);
 
+        return 0;
+    }
+
+    @Override
+    public int enterZone(ZoneOwnPostEntity zoneOwnPostEntity) {
+        zoneOwnPostEntityRepository.save(zoneOwnPostEntity);
         return 0;
     }
 
@@ -78,7 +85,6 @@ public class PostServiceImpl implements PostService {
         newComment.setFatherContentId(c.getFatherContentId());
         newComment.setFatherType(c.getFatherType());
         commentEntityRepository.save(newComment);
-
         return 0;
     }
 
@@ -87,6 +93,7 @@ public class PostServiceImpl implements PostService {
     public int deleteContent(int contentId) {
         commentEntityRepository.deleteCommentOfPost(contentId);
         postEntityRepository.delete(postEntityRepository.getById(contentId));
+        zoneOwnPostEntityRepository.deleteByPostId(contentId);
         return 0;
     }
 

@@ -3,9 +3,11 @@ package cn.edu.tongji.tfor_backend.controller;
 import cn.edu.tongji.tfor_backend.model.AdvertisementEntity;
 import cn.edu.tongji.tfor_backend.model.CommentEntity;
 import cn.edu.tongji.tfor_backend.model.PostEntity;
+import cn.edu.tongji.tfor_backend.model.ZoneOwnPostEntity;
 import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
 import cn.edu.tongji.tfor_backend.service.PostService;
 import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ public class PostController {
     @Autowired
     PostService postService;
 
+    @Operation(summary = "post a content")
     @PostMapping(value="postContent")
     public HttpResponse postContent(@RequestBody PostEntity newPost) {
         try {
@@ -31,6 +34,19 @@ public class PostController {
         return HttpResponse.success("Post successfully");
     }
 
+    @Operation(summary = "make a new post belongs to a zone")
+    @PostMapping(value="EnterZone")
+    public HttpResponse enterZone(@RequestBody ZoneOwnPostEntity zoneOwnPostEntity) {
+        try {
+            postService.enterZone(zoneOwnPostEntity);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+        return HttpResponse.success();
+    }
+
+    @Operation(summary = "post an advertisement")
     @PostMapping(value = "postAdvertisement")
     public HttpResponse postAdvertisement(@RequestBody AdvertisementEntity newAdver) {
         try {
@@ -42,6 +58,7 @@ public class PostController {
         return HttpResponse.success("Post successfully");
     }
 
+    @Operation(summary = "post a comment")
     @PostMapping(value = "postComment")
     public HttpResponse postComment(@RequestBody CommentEntity newComment) {
         try {
@@ -53,6 +70,7 @@ public class PostController {
         return HttpResponse.success("Post successfully");
     }
 
+    @Operation(summary = "delete a content(including delete comments and the relation of belonging to a zone)")
     @DeleteMapping(value = "deleteContent")
     public HttpResponse deleteContent(Integer contentId) {
         try {
@@ -64,6 +82,7 @@ public class PostController {
         return HttpResponse.success("Delete successfully");
     }
 
+    @Operation(summary = "delete am advertisement")
     @DeleteMapping(value = "deleteAdvertisement")
     public HttpResponse deleteAdvertisement(Integer contentId) {
         try {
@@ -75,6 +94,7 @@ public class PostController {
         return HttpResponse.success("Delete successfully");
     }
 
+    @Operation(summary = "delete a comment by comment ID")
     @DeleteMapping(value = "deleteComment")
     public HttpResponse deleteComment(Integer contentId) {
         try {

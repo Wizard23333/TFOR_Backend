@@ -1,5 +1,8 @@
 package cn.edu.tongji.tfor_backend.controller;
 
+import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
+import cn.edu.tongji.tfor_backend.model.PostEntity;
+import cn.edu.tongji.tfor_backend.model.ZoneEntity;
 import cn.edu.tongji.tfor_backend.service.ZoneInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/view") //api mapping str
 @Api(tags = "apis for getting info about zone") // distribution for this series of api
@@ -23,37 +28,61 @@ public class ViewController {
 
     @Operation(summary = "get all zones information") // distribution for single api
     @GetMapping("getAllZone") // mapping url
-    public ResponseEntity<Object> getAllZoneNames() {
-        return new ResponseEntity<>(zoneInfoService.getAllZones(), HttpStatus.OK);
+    public HttpResponse getAllZoneNames() {
+        try {
+            return HttpResponse.success(zoneInfoService.getAllZones());
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
     }
 
     @Operation(summary = "get personal recomandlist by userid")
     @GetMapping("getRecommend/{userId}")
-    public ResponseEntity<Object> getRecommendListByUserId(@PathVariable("userId") Integer userId) {
-        return new ResponseEntity<>(zoneInfoService.getRecommend(userId), HttpStatus.OK);
+    public HttpResponse getRecommendListByUserId(@PathVariable("userId") Integer userId) {
+        try {
+            return HttpResponse.success(zoneInfoService.getRecommend(userId));
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
     }
 
     @Operation(summary = "get rank list by time")
     @GetMapping("getRank/{day}")
-    public ResponseEntity<Object> getRankListByTime(@PathVariable Integer day) {
-        return new ResponseEntity<>(zoneInfoService.getRank(day), HttpStatus.OK);
+    public HttpResponse getRankListByTime(@PathVariable Integer day) {
+        try {
+            return HttpResponse.success(zoneInfoService.getRank(day));
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
     }
 
     @Operation(summary = "get post lists by certain a key word ")
     @GetMapping("search/{keyword}")
-    public ResponseEntity<Object> getPostListByKeyword(@PathVariable String keyword) {
-        return new ResponseEntity<>(zoneInfoService.search(keyword), HttpStatus.OK);
+    public HttpResponse getPostListByKeyword(@PathVariable String keyword) {
+        try {
+            return HttpResponse.success(zoneInfoService.search(keyword));
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
     }
 
     @Operation(summary = "get post detailed info by post id")
     @GetMapping("getPost/{postId}")
-    public ResponseEntity<Object> getPostByPostId(@PathVariable Integer postId) {
-        if (zoneInfoService.getByPostId(postId) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(zoneInfoService.getByPostId(postId), HttpStatus.OK);
+    public HttpResponse getPostByPostId(@PathVariable Integer postId) {
+        try {
+            PostEntity postEntity = zoneInfoService.getByPostId(postId);
+            if(postEntity == null) {
+                return HttpResponse.error("Post ID does not exist!");
+            }
+            return HttpResponse.success(postEntity);
         }
-
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
     }
 
 
