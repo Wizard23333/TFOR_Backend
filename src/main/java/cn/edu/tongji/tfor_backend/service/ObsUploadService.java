@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public interface ObsService {
+public interface ObsUploadService {
     // 创建ObsClient实例
     private static void createClient() {
         OBS.obsClient = new ObsClient(new BasicObsCredentialsProvider(OBS.ak, OBS.sk), OBS.endPoint);
@@ -46,7 +46,7 @@ public interface ObsService {
 
         JSONObject res = new JSONObject();
 
-        res.put("requestURL", OBS.requestURL);
+        res.put("requestURL", "https://" + OBS.requestURL);
         res.put("access-key", OBS.ak);
         res.put("policy", response.getPolicy());
         res.put("signature", response.getSignature());

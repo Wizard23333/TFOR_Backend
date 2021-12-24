@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class OBS {
-    public static String endPoint = "https://obs.cn-east-3.myhuaweicloud.com";
-    public static String requestURL = "https://tfor.obs.cn-east-3.myhuaweicloud.com";
+    public static String endPoint = "obs.cn-east-3.myhuaweicloud.com";
+    public static String requestURL = "tfor.obs.cn-east-3.myhuaweicloud.com";
     public static String ak = "JDOPVQVKTYEJUXZXODLK";
     public static String sk = "T0GuWarQxxBR9V1Bcr9MCVWpP1kobKgptrCyeg5X";
     public static String bucketName = "tfor";
