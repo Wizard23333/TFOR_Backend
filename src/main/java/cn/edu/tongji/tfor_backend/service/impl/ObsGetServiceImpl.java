@@ -1,7 +1,6 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 
 import cn.edu.tongji.tfor_backend.configuration.OBS;
-import cn.edu.tongji.tfor_backend.configuration.SignDemo;
 import cn.edu.tongji.tfor_backend.service.ObsGetService;
 import org.springframework.stereotype.Service;
 
@@ -206,15 +205,13 @@ public class ObsGetServiceImpl implements ObsGetService {
 
     @Override
     public String getUploadURL(String objectName) throws Exception {
-        SignDemo demo = new SignDemo();
-
         // 若直接使用URL在浏览器地址栏中访问，无法带上头域，此处headers加入头域会导致签名不匹配，使用headers需要客户端处理
         Map<String, String[]> headers = new HashMap<String, String[]>();
         Map<String, String> queries = new HashMap<String, String>();
 
         // 请求消息参数Expires，设置24小时后失效
         long expires = (System.currentTimeMillis() + 86400000L) / 1000;
-        String signature = demo.querySignature("GET", headers, queries, OBS.bucketName, objectName, expires);
-        return demo.getURL(OBS.endPoint, queries, OBS.bucketName, objectName, signature, expires);
+        String signature = this.querySignature("GET", headers, queries, OBS.bucketName, objectName, expires);
+        return this.getURL(OBS.endPoint, queries, OBS.bucketName, objectName, signature, expires);
     }
 }

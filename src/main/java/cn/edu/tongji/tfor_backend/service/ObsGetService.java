@@ -1,19 +1,8 @@
 package cn.edu.tongji.tfor_backend.service;
 
-import cn.edu.tongji.tfor_backend.configuration.OBS;
-import cn.edu.tongji.tfor_backend.configuration.SignDemo;
-import com.alibaba.fastjson.JSONObject;
-import com.obs.services.BasicObsCredentialsProvider;
-import com.obs.services.ObsClient;
-import com.obs.services.model.PostSignatureRequest;
-import com.obs.services.model.PostSignatureResponse;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
