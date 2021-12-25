@@ -3,6 +3,7 @@ package cn.edu.tongji.tfor_backend.service.impl;
 import cn.edu.tongji.tfor_backend.model.UserCollectionEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowUserEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntity;
+import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.UserCollectionEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.UserFollowUserEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.UserFollowZoneEntityRepository;
@@ -22,6 +23,9 @@ public class ActionServiceImpl implements ActionService {
     @Resource
     UserFollowUserEntityRepository userFollowUserEntityRepository;
 
+    @Resource
+    PostEntityRepository postEntityRepository;
+
     @Override
     public int followZone(UserFollowZoneEntity userFollowZoneEntity){
         System.out.println(userFollowZoneEntity.toString());
@@ -38,6 +42,19 @@ public class ActionServiceImpl implements ActionService {
     @Override
     public int followUser(UserFollowUserEntity userFollowUserEntity) {
         userFollowUserEntityRepository.save(userFollowUserEntity);
+        return 0;
+    }
+
+    @Override
+    public int likePost(int cid) {
+        System.out.println(cid);
+        postEntityRepository.addLikeNum(cid);
+        return 0;
+    }
+
+    @Override
+    public int reviewPost(int cid) {
+
         return 0;
     }
 
