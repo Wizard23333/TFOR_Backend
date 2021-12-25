@@ -73,6 +73,14 @@ public class ActionController {
         return HttpResponse.success("cancel follow successfully");
     }
 
+    @PutMapping(value = "likePost")
+    public HttpResponse likePost(Integer contentId) {
+        actionService.likePost(contentId);
+        return HttpResponse.success("like successfully");
+    }
+
+
+
 
 
 
