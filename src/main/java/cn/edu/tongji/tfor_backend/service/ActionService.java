@@ -15,7 +15,7 @@ public interface ActionService {
 
     int likePost(int cid);
 
-    int reviewPost(int cid);
+    int reportPost(int cid);
 
     int cancelFollowZone(int uid,int zid);
 
