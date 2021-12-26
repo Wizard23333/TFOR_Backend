@@ -79,6 +79,12 @@ public class ActionController {
         return HttpResponse.success("like successfully");
     }
 
+    @PutMapping(value = "reportPost")
+    public HttpResponse reportPost(Integer contentId) {
+        actionService.reportPost(contentId);
+        return HttpResponse.success("report successfully");
+    }
+
 
 
 
