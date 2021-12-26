@@ -53,10 +53,11 @@ public class ActionServiceImpl implements ActionService {
     }
 
     @Override
-    public int reviewPost(int cid) {
-
+    public int reportPost(int cid) {
+        postEntityRepository.addReportNum(cid);
         return 0;
     }
+
 
     @Override
     public int cancelFollowZone(int uid,int zid) {
