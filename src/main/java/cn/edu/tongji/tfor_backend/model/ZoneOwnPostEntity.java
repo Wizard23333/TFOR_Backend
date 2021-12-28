@@ -1,13 +1,14 @@
 package cn.edu.tongji.tfor_backend.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "zone_own_post", schema = "seDB", catalog = "")
 @IdClass(ZoneOwnPostEntityPK.class)
 public class ZoneOwnPostEntity {
     private int zoneId;
-    private int contentId;
+    private String contentId;
 
     @Id
     @Column(name = "zone_id")
@@ -21,11 +22,11 @@ public class ZoneOwnPostEntity {
 
     @Id
     @Column(name = "content_id")
-    public int getContentId() {
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(int contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 
@@ -33,19 +34,12 @@ public class ZoneOwnPostEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ZoneOwnPostEntity that = (ZoneOwnPostEntity) o;
-
-        if (zoneId != that.zoneId) return false;
-        if (contentId != that.contentId) return false;
-
-        return true;
+        return zoneId == that.zoneId && Objects.equals(contentId, that.contentId);
     }
 
     @Override
     public int hashCode() {
-        int result = zoneId;
-        result = 31 * result + contentId;
-        return result;
+        return Objects.hash(zoneId, contentId);
     }
 }

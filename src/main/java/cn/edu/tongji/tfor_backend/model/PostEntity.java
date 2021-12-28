@@ -3,11 +3,12 @@ package cn.edu.tongji.tfor_backend.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Table(name = "post", schema = "seDB", catalog = "")
 public class PostEntity {
-    private int contentId;
+    private String contentId;
     private int userId;
     private int likeNum;
     private int commentNum;
@@ -22,11 +23,11 @@ public class PostEntity {
 
     @Id
     @Column(name = "content_id")
-    public int getContentId() {
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(int contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 
@@ -144,38 +145,14 @@ public class PostEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         PostEntity that = (PostEntity) o;
-
-        if (contentId != that.contentId) return false;
-        if (userId != that.userId) return false;
-        if (likeNum != that.likeNum) return false;
-        if (commentNum != that.commentNum) return false;
-        if (reportNum != that.reportNum) return false;
-        if (lastEditTime != null ? !lastEditTime.equals(that.lastEditTime) : that.lastEditTime != null) return false;
-        if (text != null ? !text.equals(that.text) : that.text != null) return false;
-        if (!Arrays.equals(picture, that.picture)) return false;
-        if (reviewState != null ? !reviewState.equals(that.reviewState) : that.reviewState != null) return false;
-        if (label != null ? !label.equals(that.label) : that.label != null) return false;
-        if (postTitle != null ? !postTitle.equals(that.postTitle) : that.postTitle != null) return false;
-        if (!Arrays.equals(video, that.video)) return false;
-
-        return true;
+        return userId == that.userId && likeNum == that.likeNum && commentNum == that.commentNum && reportNum == that.reportNum && Objects.equals(contentId, that.contentId) && Objects.equals(lastEditTime, that.lastEditTime) && Objects.equals(text, that.text) && Arrays.equals(picture, that.picture) && Objects.equals(reviewState, that.reviewState) && Objects.equals(label, that.label) && Objects.equals(postTitle, that.postTitle) && Arrays.equals(video, that.video);
     }
 
     @Override
     public int hashCode() {
-        int result = contentId;
-        result = 31 * result + userId;
-        result = 31 * result + likeNum;
-        result = 31 * result + commentNum;
-        result = 31 * result + (lastEditTime != null ? lastEditTime.hashCode() : 0);
-        result = 31 * result + (text != null ? text.hashCode() : 0);
+        int result = Objects.hash(contentId, userId, likeNum, commentNum, lastEditTime, text, reportNum, reviewState, label, postTitle);
         result = 31 * result + Arrays.hashCode(picture);
-        result = 31 * result + reportNum;
-        result = 31 * result + (reviewState != null ? reviewState.hashCode() : 0);
-        result = 31 * result + (label != null ? label.hashCode() : 0);
-        result = 31 * result + (postTitle != null ? postTitle.hashCode() : 0);
         result = 31 * result + Arrays.hashCode(video);
         return result;
     }

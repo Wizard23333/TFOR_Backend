@@ -119,7 +119,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostEntity getByPostId(Integer postId) {
-        return postEntityRepository.findByContentId(postId);
+        return postEntityRepository.findByContentId(String.valueOf(postId));
     }
 
     @Override
