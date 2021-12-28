@@ -59,4 +59,15 @@ public class OBSController {
         }
         return HttpResponse.success(url);
     }
+
+    @Operation(summary = "get the urls of images of a post")
+    @GetMapping(value="getPostImageUrls")
+    public HttpResponse getPostImageUrls(String contentId) {
+        try {
+            return HttpResponse.success(obsGetService.getCommentImageList(contentId));
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
 }

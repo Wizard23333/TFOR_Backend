@@ -27,4 +27,6 @@ public interface ObsGetService {
                          String bucketName, String objectName, String signature, long expires) ;
 
     public String getUploadURL(String objectName) throws Exception ;
+
+    public List<String> getCommentImageList(String commentId) throws Exception;
 }
