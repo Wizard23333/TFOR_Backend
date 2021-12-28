@@ -3,10 +3,11 @@ package cn.edu.tongji.tfor_backend.model;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class UserCollectionEntityPK implements Serializable {
     private int userId;
-    private int contentId;
+    private String contentId;
 
     @Column(name = "user_id")
     @Id
@@ -20,11 +21,11 @@ public class UserCollectionEntityPK implements Serializable {
 
     @Column(name = "content_id")
     @Id
-    public int getContentId() {
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(int contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 
@@ -32,19 +33,12 @@ public class UserCollectionEntityPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         UserCollectionEntityPK that = (UserCollectionEntityPK) o;
-
-        if (userId != that.userId) return false;
-        if (contentId != that.contentId) return false;
-
-        return true;
+        return userId == that.userId && Objects.equals(contentId, that.contentId);
     }
 
     @Override
     public int hashCode() {
-        int result = userId;
-        result = 31 * result + contentId;
-        return result;
+        return Objects.hash(userId, contentId);
     }
 }

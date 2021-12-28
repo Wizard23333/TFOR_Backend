@@ -29,7 +29,7 @@ public interface ZoneInfoService {
     @Data
     class PostSimpleInfo{
         String postTitle;
-        Integer postId;
+        String postId;
         Integer userId;
         Integer likeNum;
     }

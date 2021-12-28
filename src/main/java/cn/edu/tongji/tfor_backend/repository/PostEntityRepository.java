@@ -23,7 +23,7 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, Integer>
     @Query(value = "update post set report_num=report_num+1 where content_id=:cid",nativeQuery = true)
     void addReportNum(@Param("cid") Integer cid);
 
-    PostEntity findByContentId(Integer contentId);
+    PostEntity findByContentId(String contentId);
 
     // 根据时间区间和likenum查询前50条
     List<PostEntity> findTop50ByLastEditTimeBetweenOrderByLikeNumDesc(Timestamp t1, Timestamp t2);
