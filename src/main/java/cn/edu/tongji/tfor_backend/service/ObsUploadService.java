@@ -47,7 +47,7 @@ public interface ObsUploadService {
         JSONObject res = new JSONObject();
 
         res.put("requestURL", "https://" + OBS.requestURL);
-        res.put("access-key", OBS.ak);
+        res.put("accessKey", OBS.ak);
         res.put("policy", response.getPolicy());
         res.put("signature", response.getSignature());
 
