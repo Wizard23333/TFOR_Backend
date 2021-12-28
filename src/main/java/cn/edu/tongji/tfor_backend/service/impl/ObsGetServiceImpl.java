@@ -1,7 +1,13 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 
 import cn.edu.tongji.tfor_backend.configuration.OBS;
+import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.service.ObsGetService;
+import com.alibaba.fastjson.JSONObject;
+import com.obs.services.ObsClient;
+import com.obs.services.model.ListObjectsRequest;
+import com.obs.services.model.ObjectListing;
+import com.obs.services.model.ObsObject;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
@@ -213,5 +219,33 @@ public class ObsGetServiceImpl implements ObsGetService {
         long expires = (System.currentTimeMillis() + 86400000L) / 1000;
         String signature = this.querySignature("GET", headers, queries, OBS.bucketName, objectName, expires);
         return this.getURL(OBS.endPoint, queries, OBS.bucketName, objectName, signature, expires);
+    }
+
+    @Override
+    public List<String> getCommentImageList(String commentId) throws Exception {
+        // 若直接使用URL在浏览器地址栏中访问，无法带上头域，此处headers加入头域会导致签名不匹配，使用headers需要客户端处理
+        Map<String, String[]> headers = new HashMap<String, String[]>();
+        Map<String, String> queries = new HashMap<String, String>();
+
+        // 创建ObsClient实例
+        final ObsClient obsClient = new ObsClient(OBS.ak, OBS.sk, "https://" + OBS.endPoint);
+
+        ListObjectsRequest request = new ListObjectsRequest("tfor");
+        // 设置列举带有prefix前缀的1000个对象
+        request.setMaxKeys(1000);
+        request.setPrefix("comment/"+commentId);
+        ObjectListing result = obsClient.listObjects(request);
+
+        List<String> resList = new LinkedList<>();
+        for(ObsObject obsObject : result.getObjects()){
+            JSONObject res = new JSONObject();
+            String objectName =  obsObject.getObjectKey();
+            // 请求消息参数Expires，设置24小时后失效
+            long expires = (System.currentTimeMillis() + 86400000L) / 1000;
+            String signature = this.querySignature("GET", headers, queries, OBS.bucketName, objectName, expires);
+            String url = this.getURL(OBS.endPoint, queries, OBS.bucketName, objectName, signature, expires);
+            resList.add(url);
+        }
+        return resList;
     }
 }
