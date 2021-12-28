@@ -6,6 +6,8 @@ import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneOwnPostEntity;
 import org.apache.coyote.Response;
 
+import java.util.List;
+
 public interface PostService {
     int postContent(PostEntity postEntity);
     int enterZone(ZoneOwnPostEntity zoneOwnPostEntity);
@@ -14,4 +16,6 @@ public interface PostService {
     int deleteContent(int pid);
     int deleteAdvertisement(int aid);
     int deleteComment(int cid);
+    PostEntity getByPostId(Integer postId);
+    List<PostEntity> getPostListByIdList(List<Integer> idList);
 }

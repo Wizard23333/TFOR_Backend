@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -113,5 +115,19 @@ public class PostServiceImpl implements PostService {
         commentEntityRepository.deleteCommentOfComment(contentId);
         commentEntityRepository.delete(commentEntityRepository.getById(contentId));
         return 0;
+    }
+
+    @Override
+    public PostEntity getByPostId(Integer postId) {
+        return postEntityRepository.findByContentId(postId);
+    }
+
+    @Override
+    public List<PostEntity> getPostListByIdList(List<Integer> idList) {
+        List<PostEntity> postEntityList = new ArrayList<>();
+        for(Integer item : idList) {
+            postEntityList.add(this.getByPostId(item));
+        }
+        return postEntityList;
     }
 }

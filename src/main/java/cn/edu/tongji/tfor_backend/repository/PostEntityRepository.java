@@ -32,5 +32,14 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, Integer>
 
     List<PostEntity> findByPostTitleContainingOrTextContaining(String keyword1, String keyword2);
 
+    // 计算发帖数量
+    @Query("select count(contentId) from PostEntity where userId = :userId")
+    Integer countPostNumByUserId(@Param("userId") Integer userId);
+
+    // 计算总的点赞数量
+    @Query("select sum(likeNum) from PostEntity where userId = :userId")
+    Integer sumLikeNumByUserId(@Param("userId") Integer userId);
+
+    List<PostEntity> findByUserId(Integer userId);
 
 }
