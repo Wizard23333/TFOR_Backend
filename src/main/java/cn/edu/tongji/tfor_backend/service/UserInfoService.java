@@ -2,6 +2,8 @@ package cn.edu.tongji.tfor_backend.service;
 
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 
+import java.util.Map;
+
 
 public interface UserInfoService {
 
@@ -23,4 +25,9 @@ public interface UserInfoService {
 
     void changePhoneNbr(int uid, String newTelNbr);
 
+    UserEntity getUserInfoByUserId(Integer userId);
+
+    UserEntity getUserInfoByUserIdWithAuth(Integer userId);
+
+    Map<String, Integer> getUserRelationInfoByUserId(Integer userId);
 }
