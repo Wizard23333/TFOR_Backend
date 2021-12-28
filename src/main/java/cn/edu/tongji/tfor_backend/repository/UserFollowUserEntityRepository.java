@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface UserFollowUserEntityRepository extends JpaRepository<UserFollowUserEntity, UserFollowUserEntityPK> {
     @Transactional
@@ -22,4 +23,6 @@ public interface UserFollowUserEntityRepository extends JpaRepository<UserFollow
     @Query("select count(userFollowedId) from UserFollowUserEntity where userFollowedId = :userId")
     Integer countFollowedNumByUserId(@Param("userId") Integer userId);
 
+    @Query("select userFollowedId from UserFollowUserEntity where userFollowingId = :userId")
+    List<Integer> getUserFollowedIdByUserId(@Param("userId") Integer userId);
 }
