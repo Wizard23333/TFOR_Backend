@@ -1,4 +1,6 @@
 package cn.edu.tongji.tfor_backend.service.impl;
+import cn.edu.tongji.tfor_backend.enums.PostLabel;
+import cn.edu.tongji.tfor_backend.enums.PostState;
 import cn.edu.tongji.tfor_backend.model.*;
 import cn.edu.tongji.tfor_backend.repository.AdvertisementEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.CommentEntityRepository;
@@ -37,8 +39,10 @@ public class PostServiceImpl implements PostService {
         newPost.setText(p.getText());
         newPost.setPicture(p.getPicture());
         newPost.setReportNum(p.getReportNum());
-        newPost.setReviewState("Not Reviewed");
-        newPost.setLabel("Normal");
+        PostState postState = PostState.NotReviewed;
+        PostLabel postLabel = PostLabel.Normal;
+        newPost.setReviewState(postState.toString());
+        newPost.setLabel(postLabel.toString());
         newPost.setPostTitle(p.getPostTitle());
         newPost.setVideo(p.getVideo());
         postEntityRepository.save(newPost);
