@@ -1,25 +1,33 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 
+import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
+import cn.edu.tongji.tfor_backend.repository.UserCollectionEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.UserEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.UserFollowUserEntityRepository;
+import cn.edu.tongji.tfor_backend.service.PostService;
 import cn.edu.tongji.tfor_backend.service.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
+    @Autowired
+    PostService postService;
+
     @Resource
     UserEntityRepository userEntityRepository;
 
     @Resource
     UserFollowUserEntityRepository userFollowUserEntityRepository;
+
+    @Resource
+    UserCollectionEntityRepository userCollectionEntityRepository;
 
     @Resource
     PostEntityRepository postEntityRepository;
@@ -124,6 +132,29 @@ public class UserInfoServiceImpl implements UserInfoService {
         info.put("postNum", postEntityRepository.countPostNumByUserId(userId));
         info.put("likeNum", postEntityRepository.sumLikeNumByUserId(userId));
         return info;
+    }
+
+    @Override
+    public List<UserEntity> getUserFollowingListByUserId(Integer userId) {
+        if (userEntityRepository.findByUserId(userId) == null) {
+            return null;
+        }
+        List<Integer> followedIdList = userFollowUserEntityRepository.getUserFollowedIdByUserId(userId);
+        List<UserEntity> userList = new ArrayList<>();
+        for(Integer item : followedIdList) {
+            System.out.println(item);
+            userList.add(this.getUserInfoByUserId(item)); // 调用自己的方法
+        }
+        return userList;
+    }
+
+    @Override
+    public List<PostEntity> getUserCollectionPostByUserId(Integer userId) {
+        if (userEntityRepository.findByUserId(userId) == null) {
+            return null;
+        }
+        List<Integer> contentIdList = userCollectionEntityRepository.findContentIdByUserId(userId);
+        return postService.getPostListByIdList(contentIdList); // 调用另一个的service的接口
     }
 
 }
