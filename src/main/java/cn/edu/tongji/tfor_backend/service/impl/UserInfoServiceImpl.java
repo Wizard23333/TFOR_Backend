@@ -1,18 +1,28 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 
 import cn.edu.tongji.tfor_backend.model.UserEntity;
+import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.UserEntityRepository;
+import cn.edu.tongji.tfor_backend.repository.UserFollowUserEntityRepository;
 import cn.edu.tongji.tfor_backend.service.UserInfoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     UserEntityRepository userEntityRepository;
+
+    @Resource
+    UserFollowUserEntityRepository userFollowUserEntityRepository;
+
+    @Resource
+    PostEntityRepository postEntityRepository;
 
     @Override
     public void createUserByObject(UserEntity newUser){
@@ -81,6 +91,39 @@ public class UserInfoServiceImpl implements UserInfoService {
         if(userEntityRepository.ifExistsByTel(newTelNbr)==0){
             userEntityRepository.changePhoneNbr(uid, newTelNbr);
         }
+    }
+
+    @Override
+    public UserEntity getUserInfoByUserId(Integer userId) {
+        UserEntity userEntity = new UserEntity();
+        userEntity = userEntityRepository.findByUserId(userId);
+        if (userEntity != null){
+            userEntity.setUserPwd("null"); // do not pass the pwd to the fronter
+            userEntity.setUserEmail("xx.com");
+            userEntity.setUserTel("00000");
+        }
+        return  userEntity;
+    }
+
+    // 获取敏感信息需要认证
+    @Override
+    public UserEntity getUserInfoByUserIdWithAuth(Integer userId) {
+        UserEntity userEntity = new UserEntity();
+        userEntity = userEntityRepository.findByUserId(userId);
+        return  userEntity;
+    }
+
+    @Override
+    public Map<String, Integer> getUserRelationInfoByUserId(Integer userId) {
+        if (userEntityRepository.findByUserId(userId) == null) {
+            return null;
+        }
+        Map<String, Integer> info = new HashMap<>();
+        info.put("followingNum", userFollowUserEntityRepository.countFollowingNumByUserId(userId));
+        info.put("followedNum", userFollowUserEntityRepository.countFollowedNumByUserId(userId));
+        info.put("postNum", postEntityRepository.countPostNumByUserId(userId));
+        info.put("likeNum", postEntityRepository.sumLikeNumByUserId(userId));
+        return info;
     }
 
 }
