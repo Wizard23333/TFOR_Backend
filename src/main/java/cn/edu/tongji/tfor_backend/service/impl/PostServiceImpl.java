@@ -47,6 +47,8 @@ public class PostServiceImpl implements PostService {
         newPost.setLabel(postLabel.toString());
         newPost.setPostTitle(p.getPostTitle());
         newPost.setVideo(p.getVideo());
+        newPost.setLikeNum(0);
+        newPost.setCommentNum(0);
         postEntityRepository.save(newPost);
 
         return 0;
