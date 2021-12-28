@@ -13,6 +13,8 @@ public interface ZoneEntityRepository extends JpaRepository<ZoneEntity, Integer>
     @Query("from ZoneEntity") // simplified sql of (select * from ZoneEntity)
     List<ZoneEntity> findAllZones();
 
+    ZoneEntity findByZoneId(Integer zoneId);
+
 
     // interface temporarily of no use ()
     public interface ZoneNameOnly {

@@ -2,23 +2,26 @@ package cn.edu.tongji.tfor_backend.service.impl;
 
 import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
-import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.UserCollectionEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.UserEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.UserFollowUserEntityRepository;
+import cn.edu.tongji.tfor_backend.model.ZoneEntity;
+import cn.edu.tongji.tfor_backend.repository.*;
 import cn.edu.tongji.tfor_backend.service.PostService;
 import cn.edu.tongji.tfor_backend.service.UserInfoService;
+import cn.edu.tongji.tfor_backend.service.ZoneInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     PostService postService;
+
+    @Autowired
+    ZoneInfoService zoneInfoService;
 
     @Resource
     UserEntityRepository userEntityRepository;
@@ -28,6 +31,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Resource
     UserCollectionEntityRepository userCollectionEntityRepository;
+
+    @Resource
+    UserFollowZoneEntityRepository userFollowZoneEntityRepository;
 
     @Resource
     PostEntityRepository postEntityRepository;
@@ -134,6 +140,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         return info;
     }
 
+    // 关注人员表
     @Override
     public List<UserEntity> getUserFollowingListByUserId(Integer userId) {
         if (userEntityRepository.findByUserId(userId) == null) {
@@ -148,6 +155,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userList;
     }
 
+    // 收藏列表
     @Override
     public List<PostEntity> getUserCollectionPostByUserId(Integer userId) {
         if (userEntityRepository.findByUserId(userId) == null) {
@@ -155,6 +163,24 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         List<Integer> contentIdList = userCollectionEntityRepository.findContentIdByUserId(userId);
         return postService.getPostListByIdList(contentIdList); // 调用另一个的service的接口
+    }
+
+    // 关注分区表
+    @Override
+    public List<ZoneEntity> getFollowZoneListByUserId(Integer userId) {
+        if (userEntityRepository.findByUserId(userId) == null) {
+            return null;
+        }
+        List<Integer> zoneIdList = userFollowZoneEntityRepository.findZoneIdListByUserId(userId);
+        return zoneInfoService.getZoneListByIdList(zoneIdList);
+    }
+
+    @Override
+    public List<PostEntity> getPostListByUserId(Integer userId) {
+        if (userEntityRepository.findByUserId(userId) == null) {
+            return null;
+        }
+        return postEntityRepository.findByUserId(userId);
     }
 
 }

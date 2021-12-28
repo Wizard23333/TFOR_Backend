@@ -40,4 +40,6 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, Integer>
     @Query("select sum(likeNum) from PostEntity where userId = :userId")
     Integer sumLikeNumByUserId(@Param("userId") Integer userId);
 
+    List<PostEntity> findByUserId(Integer userId);
+
 }

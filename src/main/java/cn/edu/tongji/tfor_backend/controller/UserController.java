@@ -232,4 +232,38 @@ public class UserController {
         }
     }
 
+    @GetMapping("getFollowingZoneList/{userId}")
+    @Operation(summary = "get following zone list by user id")
+    public HttpResponse getFollowingZoneListByUserId(@PathVariable Integer userId){
+        try {
+            Object list = userInfoService.getFollowZoneListByUserId(userId);
+            if(list == null) {
+                return HttpResponse.error("user Id does not exist!", "404");
+            }
+            else {
+                return HttpResponse.success(list);
+            }
+        }
+        catch (Exception e) {
+            return  HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getPostList/{userId}")
+    @Operation(summary = "get post list written by a user")
+    public HttpResponse getPostListByUserId(@PathVariable Integer userId){
+        try {
+            Object list = userInfoService.getPostListByUserId(userId);
+            if(list == null) {
+                return HttpResponse.error("user Id does not exist!", "404");
+            }
+            else {
+                return HttpResponse.success(list);
+            }
+        }
+        catch (Exception e) {
+            return  HttpResponse.error(e.toString());
+        }
+    }
+
 }

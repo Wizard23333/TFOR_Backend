@@ -4,6 +4,7 @@ import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneEntity;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -37,5 +38,10 @@ public interface UserInfoService {
     List<UserEntity> getUserFollowingListByUserId(Integer userId);
 
     List<PostEntity> getUserCollectionPostByUserId(Integer userId);
+
+    List<ZoneEntity> getFollowZoneListByUserId(Integer userId);
+
+    // 通过userid查找发布的帖子
+    List<PostEntity> getPostListByUserId(Integer userId);
 
 }
