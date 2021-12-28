@@ -12,10 +12,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Header;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -191,6 +194,126 @@ public class UserController {
         }
         catch (Exception e) {
             return HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getInfo/{userId}")
+    @Operation(summary = "get user base Info by userId")
+    public HttpResponse getUserInfoByUserId(@PathVariable Integer userId) {
+        try {
+            UserEntity userEntity = userInfoService.getUserInfoByUserId(userId);
+            if (userEntity == null) {
+                return HttpResponse.error("user Id does not exist!","404");
+            }
+            else {
+                return HttpResponse.success(userEntity);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+//    @Auth
+    @GetMapping("getInfoNeedAuth/{userId}")
+    @Operation(summary = "get user Info with authorizeation")
+    public HttpResponse getUserInfoNeedAuth(@PathVariable Integer userId) {
+        try{
+            UserEntity userEntity = userInfoService.getUserInfoByUserIdWithAuth(userId);
+            if(userEntity == null) {
+                return HttpResponse.error("user Id does not exist!","404");
+            }
+            else {
+                return HttpResponse.success(userEntity);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getRelationInfo/{userId}")
+    @Operation(summary = "get info like following num, like num...")
+    public HttpResponse getUserRelationInfoByUserId(@PathVariable Integer userId) {
+        try {
+            Object relationInfo = userInfoService.getUserRelationInfoByUserId(userId);
+            if(relationInfo == null) {
+                return HttpResponse.error("user Id does not exist!","404");
+            }
+            else {
+                return HttpResponse.success(relationInfo);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getFollowingList/{userId}")
+    @Operation(summary = "get following list by user id")
+    public HttpResponse getFollowingListByUserId(@PathVariable Integer userId) {
+        try {
+            Object list = userInfoService.getUserFollowingListByUserId(userId);
+            if(list == null) {
+                return HttpResponse.error("user Id does not exist!", "404");
+            }
+            else {
+                return HttpResponse.success(list);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getCollectionList/{userId}")
+    @Operation(summary = "get collection list by user id")
+    public HttpResponse getCollectionListByUserId(@PathVariable Integer userId) {
+        try {
+            Object list = userInfoService.getUserCollectionPostByUserId(userId);
+            if(list == null) {
+                return HttpResponse.error("user Id does not exist!", "404");
+            }
+            else {
+                return HttpResponse.success(list);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getFollowingZoneList/{userId}")
+    @Operation(summary = "get following zone list by user id")
+    public HttpResponse getFollowingZoneListByUserId(@PathVariable Integer userId){
+        try {
+            Object list = userInfoService.getFollowZoneListByUserId(userId);
+            if(list == null) {
+                return HttpResponse.error("user Id does not exist!", "404");
+            }
+            else {
+                return HttpResponse.success(list);
+            }
+        }
+        catch (Exception e) {
+            return  HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getPostList/{userId}")
+    @Operation(summary = "get post list written by a user")
+    public HttpResponse getPostListByUserId(@PathVariable Integer userId){
+        try {
+            Object list = userInfoService.getPostListByUserId(userId);
+            if(list == null) {
+                return HttpResponse.error("user Id does not exist!", "404");
+            }
+            else {
+                return HttpResponse.success(list);
+            }
+        }
+        catch (Exception e) {
+            return  HttpResponse.error(e.toString());
         }
     }
 

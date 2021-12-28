@@ -3,6 +3,7 @@ package cn.edu.tongji.tfor_backend.controller;
 import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneEntity;
+import cn.edu.tongji.tfor_backend.service.PostService;
 import cn.edu.tongji.tfor_backend.service.ZoneInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +25,9 @@ public class ViewController {
 
     @Autowired
     ZoneInfoService zoneInfoService; // which service the controller used
+
+    @Autowired
+    PostService postService;
 
 
     @Operation(summary = "get all zones information") // distribution for single api
@@ -80,9 +84,9 @@ public class ViewController {
     @GetMapping("getPost/{postId}")
     public HttpResponse getPostByPostId(@PathVariable Integer postId) {
         try {
-            PostEntity postEntity = zoneInfoService.getByPostId(postId);
+            PostEntity postEntity = postService.getByPostId(postId);
             if(postEntity == null) {
-                return HttpResponse.error("Post ID does not exist!");
+                return HttpResponse.error("Post ID does not exist!","404");
             }
             return HttpResponse.success(postEntity);
         }

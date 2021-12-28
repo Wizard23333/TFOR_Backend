@@ -24,7 +24,7 @@ public interface ZoneInfoService {
 
     List<PostSimpleInfo> getByZoneId(Integer zoneId);
 
-    PostEntity getByPostId(Integer postId);
+    List<ZoneEntity> getZoneListByIdList(List<Integer> zoneIdList);
 
     @Data
     class PostSimpleInfo{
