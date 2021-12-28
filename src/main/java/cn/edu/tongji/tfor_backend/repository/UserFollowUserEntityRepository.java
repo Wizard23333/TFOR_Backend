@@ -14,4 +14,12 @@ public interface UserFollowUserEntityRepository extends JpaRepository<UserFollow
     @Modifying
     @Query(value = "delete from user_follow_user where user_following_id=:uid1 and user_followed_id=:uid2",nativeQuery = true)
     void deleteByUsersId(@Param("uid1") int uid1,@Param("uid2") int uid2);
+
+    // 计算关注人数和被关注人数
+    @Query("select count(userFollowingId) from UserFollowUserEntity where userFollowingId = :userId")
+    Integer countFollowingNumByUserId(@Param("userId") Integer userId);
+
+    @Query("select count(userFollowedId) from UserFollowUserEntity where userFollowedId = :userId")
+    Integer countFollowedNumByUserId(@Param("userId") Integer userId);
+
 }

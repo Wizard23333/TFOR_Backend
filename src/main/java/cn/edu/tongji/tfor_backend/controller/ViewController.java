@@ -82,7 +82,7 @@ public class ViewController {
         try {
             PostEntity postEntity = zoneInfoService.getByPostId(postId);
             if(postEntity == null) {
-                return HttpResponse.error("Post ID does not exist!");
+                return HttpResponse.error("Post ID does not exist!","404");
             }
             return HttpResponse.success(postEntity);
         }

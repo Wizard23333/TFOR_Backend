@@ -1,5 +1,6 @@
 package cn.edu.tongji.tfor_backend.controller;
 
+import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.myannotation.Auth;
 import cn.edu.tongji.tfor_backend.service.EmailService;
@@ -11,10 +12,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.Header;
 import java.util.Objects;
 
 @RestController
@@ -140,6 +143,58 @@ public class UserController {
     @GetMapping("getverifycode/tel/{telnum}")
     public void getTelVerifyCode(@PathVariable String telnum){
         telephoneService.sendTelVerifyCode(telnum);
+    }
+
+    @GetMapping("getInfo/{userId}")
+    @Operation(summary = "get user base Info by userId")
+    public HttpResponse getUserInfoByUserId(@PathVariable Integer userId) {
+        try {
+            UserEntity userEntity = userInfoService.getUserInfoByUserId(userId);
+            if (userEntity == null) {
+                return HttpResponse.error("user Id does not exist!","404");
+            }
+            else {
+                return HttpResponse.success(userEntity);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+
+    @GetMapping("getInfoNeedAuth/{userId}")
+    @Operation(summary = "get user Info with authorizeation")
+    public HttpResponse getUserInfoNeedAuth(@PathVariable Integer userId) {
+        try{
+            UserEntity userEntity = userInfoService.getUserInfoByUserIdWithAuth(userId);
+            if(userEntity == null) {
+                return HttpResponse.error("user Id does not exist!","404");
+            }
+            else {
+                return HttpResponse.success(userEntity);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+    @GetMapping("getRelationInfo/{userId}")
+    @Operation(summary = "get info like following num, like num...")
+    public HttpResponse getUserRelationInfoByUserId(@PathVariable Integer userId) {
+        try {
+            Object relationInfo = userInfoService.getUserRelationInfoByUserId(userId);
+            if(relationInfo == null) {
+                return HttpResponse.error("user Id does not exist!","404");
+            }
+            else {
+                return HttpResponse.success(relationInfo);
+            }
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
     }
 
 }

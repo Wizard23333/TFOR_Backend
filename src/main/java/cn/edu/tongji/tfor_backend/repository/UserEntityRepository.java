@@ -52,4 +52,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer>
     //判断输入的手机号是否存在
     @Query(value = "select count(*) from user where user_tel=:newTelNbr", nativeQuery = true)
     int ifExistsByTel(@Param("newTelNbr") String newTelNbr);
+
+    UserEntity findByUserId(Integer userId);
 }
