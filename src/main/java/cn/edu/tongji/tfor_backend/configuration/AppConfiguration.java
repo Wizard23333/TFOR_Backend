@@ -17,7 +17,9 @@ public class AppConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 // 允许所有的ip访问
                 registry.addMapping("/**")
-                        .allowedOrigins("*");
+                        .allowedOriginPatterns("*")
+                        .allowCredentials(true)
+                        .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
     }

@@ -145,8 +145,9 @@ public class UserController {
             String telVerifyCode = telephoneService.getTelVerifyCode();
             if (Objects.equals(verifyCode, telVerifyCode)){
                 userInfoService.changePhoneNbr(uid, newTelNbr);
+                return HttpResponse.success();
             }
-            return HttpResponse.success();
+            return HttpResponse.error("verifyCode error");
         }
         catch (Exception e) {
             return HttpResponse.error(e.toString());
@@ -173,7 +174,7 @@ public class UserController {
     }
 
     //发送邮箱验证码请求
-    @Auth
+    //@Auth
     @GetMapping("getverifycode/email/{emailaddr}")
     public HttpResponse getEmailVerifyCode(@PathVariable String emailaddr){
         try{
