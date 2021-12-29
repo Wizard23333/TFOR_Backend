@@ -15,12 +15,12 @@ public interface CommentEntityRepository extends JpaRepository<CommentEntity, In
             "with cid as (select c.content_id from comment c where :fatherID = c.father_content_id and c.father_type = 0)" +
                 "delete from comment c1 where (c1.content_id) in (select content_id from cid)"
             , nativeQuery = true)
-    void deleteCommentOfComment(@Param("fatherID") int fatherID);
+    void deleteCommentOfComment(@Param("fatherID") String fatherID);
 
     @Modifying
     @Query(value =
             "with cid as (select c.content_id from comment c where :fatherID = c.father_content_id and c.father_type = 1)" +
                     "delete from comment c1 where (c1.content_id) in (select content_id from cid)"
             , nativeQuery = true)
-    void deleteCommentOfPost(@Param("fatherID") int fatherID);
+    void deleteCommentOfPost(@Param("fatherID") String fatherID);
 }

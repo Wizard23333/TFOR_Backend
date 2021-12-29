@@ -16,12 +16,12 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, Integer>
     @Transactional
     @Modifying
     @Query(value = "update post set like_num=like_num+1 where content_id=:cid",nativeQuery = true)
-    void addLikeNum(@Param("cid") Integer cid);
+    void addLikeNum(@Param("cid") String cid);
 
     @Transactional
     @Modifying
     @Query(value = "update post set report_num=report_num+1 where content_id=:cid",nativeQuery = true)
-    void addReportNum(@Param("cid") Integer cid);
+    void addReportNum(@Param("cid") String cid);
 
     PostEntity findByContentId(String contentId);
 

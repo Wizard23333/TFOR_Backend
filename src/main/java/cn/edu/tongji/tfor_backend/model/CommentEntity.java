@@ -5,9 +5,9 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "comment", schema = "seDB", catalog = "")
+@Table(name = "comment", schema = "seDB")
 public class CommentEntity {
-    private int contentId;
+    private String contentId;
     private int userId;
     private int likeNum;
     private int commentNum;
@@ -17,18 +17,19 @@ public class CommentEntity {
     private int reportNum;
     private String reviewState;
     private String label;
-    private int fatherContentId;
+    private String fatherContentId;
     private byte fatherType;
 
     @Id
-    @Column(name = "content_id")
-    public int getContentId() {
+    @Column(name = "content_id", nullable = false, length = 255)
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(int contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
+
 
     @Basic
     @Column(name = "user_id")
@@ -41,7 +42,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "like_num")
+    @Column(name = "like_num", nullable = false)
     public int getLikeNum() {
         return likeNum;
     }
@@ -51,7 +52,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "comment_num")
+    @Column(name = "comment_num", nullable = false)
     public int getCommentNum() {
         return commentNum;
     }
@@ -61,7 +62,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "last_edit_time")
+    @Column(name = "last_edit_time", nullable = false)
     public Timestamp getLastEditTime() {
         return lastEditTime;
     }
@@ -71,7 +72,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "text")
+    @Column(name = "text", nullable = false, length = -1)
     public String getText() {
         return text;
     }
@@ -81,7 +82,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "picture")
+    @Column(name = "picture", nullable = true)
     public byte[] getPicture() {
         return picture;
     }
@@ -91,7 +92,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "report_num")
+    @Column(name = "report_num", nullable = false)
     public int getReportNum() {
         return reportNum;
     }
@@ -101,7 +102,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "review_state")
+    @Column(name = "review_state", nullable = false, length = 255)
     public String getReviewState() {
         return reviewState;
     }
@@ -111,7 +112,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "label")
+    @Column(name = "label", nullable = false, length = 255)
     public String getLabel() {
         return label;
     }
@@ -121,17 +122,17 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "father_content_id")
-    public int getFatherContentId() {
+    @Column(name = "father_content_id", nullable = false, length = 255)
+    public String getFatherContentId() {
         return fatherContentId;
     }
 
-    public void setFatherContentId(int fatherContentId) {
+    public void setFatherContentId(String fatherContentId) {
         this.fatherContentId = fatherContentId;
     }
 
     @Basic
-    @Column(name = "father_type")
+    @Column(name = "father_type", nullable = false)
     public byte getFatherType() {
         return fatherType;
     }
@@ -164,19 +165,7 @@ public class CommentEntity {
     }
 
     @Override
-    public int hashCode() {
-        int result = contentId;
-        result = 31 * result + userId;
-        result = 31 * result + likeNum;
-        result = 31 * result + commentNum;
-        result = 31 * result + (lastEditTime != null ? lastEditTime.hashCode() : 0);
-        result = 31 * result + (text != null ? text.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(picture);
-        result = 31 * result + reportNum;
-        result = 31 * result + (reviewState != null ? reviewState.hashCode() : 0);
-        result = 31 * result + (label != null ? label.hashCode() : 0);
-        result = 31 * result + fatherContentId;
-        result = 31 * result + (int) fatherType;
-        return result;
+    public int hashCode(){
+        return this.likeNum;
     }
 }

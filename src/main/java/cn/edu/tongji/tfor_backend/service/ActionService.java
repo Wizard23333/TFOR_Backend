@@ -13,13 +13,13 @@ public interface ActionService {
 
     int followUser(UserFollowUserEntity userFollowUserEntity);
 
-    int likePost(int cid);
+    int likePost(String cid);
 
-    int reportPost(int cid);
+    int reportPost(String cid);
 
     int cancelFollowZone(int uid,int zid);
 
-    int cancelCollectPost(int uid,int cid);
+    int cancelCollectPost(int uid,String cid);
 
     int cancelFollowUser(int uid1,int uid2);
 }

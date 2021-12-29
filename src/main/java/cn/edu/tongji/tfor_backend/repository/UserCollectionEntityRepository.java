@@ -15,8 +15,8 @@ public interface UserCollectionEntityRepository extends JpaRepository<UserCollec
     @Transactional
     @Modifying
     @Query(value = "delete from user_collection where user_id=:uid and content_id=:cid",nativeQuery = true)
-    void deleteByUidAndCid(@Param("uid") int uid, @Param("cid") int cid);
+    void deleteByUidAndCid(@Param("uid") int uid, @Param("cid") String cid);
 
     @Query("select contentId from UserCollectionEntity where userId = :userId")
-    List<Integer> findContentIdByUserId(@Param("userId") Integer userId);
+    List<String> findContentIdByUserId(@Param("userId") Integer userId);
 }

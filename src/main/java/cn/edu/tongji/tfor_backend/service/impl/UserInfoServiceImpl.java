@@ -161,7 +161,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (userEntityRepository.findByUserId(userId) == null) {
             return null;
         }
-        List<Integer> contentIdList = userCollectionEntityRepository.findContentIdByUserId(userId);
+        List<String> contentIdList = userCollectionEntityRepository.findContentIdByUserId(userId);
         return postService.getPostListByIdList(contentIdList); // 调用另一个的service的接口
     }
 

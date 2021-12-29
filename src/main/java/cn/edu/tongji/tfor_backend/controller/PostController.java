@@ -72,7 +72,7 @@ public class PostController {
 
     @Operation(summary = "delete a content(including delete comments and the relation of belonging to a zone)")
     @DeleteMapping(value = "deleteContent")
-    public HttpResponse deleteContent(Integer contentId) {
+    public HttpResponse deleteContent(String contentId) {
         try {
             postService.deleteContent(contentId);
         }
@@ -96,7 +96,7 @@ public class PostController {
 
     @Operation(summary = "delete a comment by comment ID")
     @DeleteMapping(value = "deleteComment")
-    public HttpResponse deleteComment(Integer contentId) {
+    public HttpResponse deleteComment(String contentId) {
         try {
             postService.deleteComment(contentId);
         }

@@ -68,19 +68,19 @@ public class ActionController {
     }
 
     @DeleteMapping(value = "cancelCollectPost")
-    public HttpResponse cancelCollectPost(Integer userId, Integer postId) {
+    public HttpResponse cancelCollectPost(Integer userId, String postId) {
         actionService.cancelCollectPost(userId,postId);
         return HttpResponse.success("cancel follow successfully");
     }
 
     @PutMapping(value = "likePost")
-    public HttpResponse likePost(Integer contentId) {
+    public HttpResponse likePost(String contentId) {
         actionService.likePost(contentId);
         return HttpResponse.success("like successfully");
     }
 
     @PutMapping(value = "reportPost")
-    public HttpResponse reportPost(Integer contentId) {
+    public HttpResponse reportPost(String contentId) {
         actionService.reportPost(contentId);
         return HttpResponse.success("report successfully");
     }

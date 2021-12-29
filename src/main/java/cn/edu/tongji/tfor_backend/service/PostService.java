@@ -13,9 +13,9 @@ public interface PostService {
     int enterZone(ZoneOwnPostEntity zoneOwnPostEntity);
     int postAdvertisement(AdvertisementEntity advertisementEntity);
     int postComment(CommentEntity commentEntity);
-    int deleteContent(int pid);
-    int deleteAdvertisement(int aid);
-    int deleteComment(int cid);
-    PostEntity getByPostId(Integer postId);
-    List<PostEntity> getPostListByIdList(List<Integer> idList);
+    int deleteContent(String pid);
+    int deleteAdvertisement(Integer aid);
+    int deleteComment(String cid);
+    PostEntity getByPostId(String postId);
+    List<PostEntity> getPostListByIdList(List<String> idList);
 }
