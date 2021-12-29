@@ -47,8 +47,7 @@ public class PostServiceImpl implements PostService {
         newPost.setLabel(postLabel.toString());
         newPost.setPostTitle(p.getPostTitle());
         newPost.setVideo(p.getVideo());
-        newPost.setLikeNum(0);
-        newPost.setCommentNum(0);
+        newPost.setContentId(p.getContentId());
         postEntityRepository.save(newPost);
 
         return 0;
@@ -92,42 +91,45 @@ public class PostServiceImpl implements PostService {
         newComment.setLabel("Normal");
         newComment.setFatherContentId(c.getFatherContentId());
         newComment.setFatherType(c.getFatherType());
+        newComment.setContentId(c.getContentId());
         commentEntityRepository.save(newComment);
         return 0;
     }
 
     @Override
     @Transactional
-    public int deleteContent(int contentId) {
+    public int deleteContent(String contentId) {
         commentEntityRepository.deleteCommentOfPost(contentId);
-        postEntityRepository.delete(postEntityRepository.getById(contentId));
+        postEntityRepository.delete(postEntityRepository.findByContentId(contentId));
         zoneOwnPostEntityRepository.deleteByPostId(contentId);
         return 0;
     }
 
     @Override
-    public int deleteAdvertisement(int contentId) {
+    public int deleteAdvertisement(Integer contentId) {
         advertisementEntityRepository.delete(advertisementEntityRepository.getById(contentId));
         return 0;
     }
 
     @Override
     @Transactional
-    public int deleteComment(int contentId) {
+    public int deleteComment(String contentId) {
         commentEntityRepository.deleteCommentOfComment(contentId);
-        commentEntityRepository.delete(commentEntityRepository.getById(contentId));
+        //这里有问题！！
+//        commentEntityRepository.
+//        commentEntityRepository.delete(commentEntityRepository);
         return 0;
     }
 
     @Override
-    public PostEntity getByPostId(Integer postId) {
+    public PostEntity getByPostId(String postId) {
         return postEntityRepository.findByContentId(String.valueOf(postId));
     }
 
     @Override
-    public List<PostEntity> getPostListByIdList(List<Integer> idList) {
+    public List<PostEntity> getPostListByIdList(List<String> idList) {
         List<PostEntity> postEntityList = new ArrayList<>();
-        for(Integer item : idList) {
+        for(String item : idList) {
             postEntityList.add(this.getByPostId(item));
         }
         return postEntityList;
