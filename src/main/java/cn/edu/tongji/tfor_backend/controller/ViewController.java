@@ -82,7 +82,7 @@ public class ViewController {
 
     @Operation(summary = "get post detailed info by post id")
     @GetMapping("getPost/{postId}")
-    public HttpResponse getPostByPostId(@PathVariable Integer postId) {
+    public HttpResponse getPostByPostId(@PathVariable String postId) {
         try {
             PostEntity postEntity = postService.getByPostId(postId);
             if(postEntity == null) {

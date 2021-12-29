@@ -46,14 +46,14 @@ public class ActionServiceImpl implements ActionService {
     }
 
     @Override
-    public int likePost(int cid) {
+    public int likePost(String cid) {
         System.out.println(cid);
         postEntityRepository.addLikeNum(cid);
         return 0;
     }
 
     @Override
-    public int reportPost(int cid) {
+    public int reportPost(String cid) {
         postEntityRepository.addReportNum(cid);
         return 0;
     }
@@ -67,7 +67,7 @@ public class ActionServiceImpl implements ActionService {
     }
 
     @Override
-    public int cancelCollectPost(int uid,int cid) {
+    public int cancelCollectPost(int uid,String cid) {
         userCollectionEntityRepository.deleteByUidAndCid(uid,cid);
         return 0;
     }
