@@ -23,4 +23,7 @@ public interface CommentEntityRepository extends JpaRepository<CommentEntity, In
                     "delete from comment c1 where (c1.content_id) in (select content_id from cid)"
             , nativeQuery = true)
     void deleteCommentOfPost(@Param("fatherID") String fatherID);
+
+    @Query(value = "select count(*) from comment c where c.content_id=:contentId", nativeQuery = true)
+    Integer isPresent(@Param("contentId") String contentId);
 }
