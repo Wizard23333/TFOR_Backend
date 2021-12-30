@@ -68,7 +68,6 @@ public class PostController {
     @PostMapping(value = "postComment")
     public HttpResponse postComment(@RequestBody CommentEntity newComment) {
         try {
-            logger.info("!!!!!!!!!!!!!!!!!!!"+newComment.getContentId());
             kafkaProducer.sendChannelMess("commentTopic",
                     JSON.toJSONString(newComment));
         }
