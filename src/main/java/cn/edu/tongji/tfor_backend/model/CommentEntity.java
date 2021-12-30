@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "comment", schema = "seDB")
+@Table(name = "comment", schema = "seDB", catalog = "")
 public class CommentEntity {
     private String contentId;
     private int userId;
@@ -21,7 +21,7 @@ public class CommentEntity {
     private byte fatherType;
 
     @Id
-    @Column(name = "content_id", nullable = false, length = 255)
+    @Column(name = "content_id")
     public String getContentId() {
         return contentId;
     }
@@ -29,7 +29,6 @@ public class CommentEntity {
     public void setContentId(String contentId) {
         this.contentId = contentId;
     }
-
 
     @Basic
     @Column(name = "user_id")
@@ -42,7 +41,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "like_num", nullable = false)
+    @Column(name = "like_num")
     public int getLikeNum() {
         return likeNum;
     }
@@ -52,7 +51,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "comment_num", nullable = false)
+    @Column(name = "comment_num")
     public int getCommentNum() {
         return commentNum;
     }
@@ -62,7 +61,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "last_edit_time", nullable = false)
+    @Column(name = "last_edit_time")
     public Timestamp getLastEditTime() {
         return lastEditTime;
     }
@@ -72,7 +71,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "text", nullable = false, length = -1)
+    @Column(name = "text")
     public String getText() {
         return text;
     }
@@ -82,7 +81,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "picture", nullable = true)
+    @Column(name = "picture")
     public byte[] getPicture() {
         return picture;
     }
@@ -92,7 +91,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "report_num", nullable = false)
+    @Column(name = "report_num")
     public int getReportNum() {
         return reportNum;
     }
@@ -102,7 +101,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "review_state", nullable = false, length = 255)
+    @Column(name = "review_state")
     public String getReviewState() {
         return reviewState;
     }
@@ -112,7 +111,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "label", nullable = false, length = 255)
+    @Column(name = "label")
     public String getLabel() {
         return label;
     }
@@ -122,7 +121,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "father_content_id", nullable = false, length = 255)
+    @Column(name = "father_content_id")
     public String getFatherContentId() {
         return fatherContentId;
     }
@@ -132,7 +131,7 @@ public class CommentEntity {
     }
 
     @Basic
-    @Column(name = "father_type", nullable = false)
+    @Column(name = "father_type")
     public byte getFatherType() {
         return fatherType;
     }
@@ -148,24 +147,37 @@ public class CommentEntity {
 
         CommentEntity that = (CommentEntity) o;
 
-        if (contentId != that.contentId) return false;
         if (userId != that.userId) return false;
         if (likeNum != that.likeNum) return false;
         if (commentNum != that.commentNum) return false;
         if (reportNum != that.reportNum) return false;
-        if (fatherContentId != that.fatherContentId) return false;
         if (fatherType != that.fatherType) return false;
+        if (contentId != null ? !contentId.equals(that.contentId) : that.contentId != null) return false;
         if (lastEditTime != null ? !lastEditTime.equals(that.lastEditTime) : that.lastEditTime != null) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
         if (!Arrays.equals(picture, that.picture)) return false;
         if (reviewState != null ? !reviewState.equals(that.reviewState) : that.reviewState != null) return false;
         if (label != null ? !label.equals(that.label) : that.label != null) return false;
+        if (fatherContentId != null ? !fatherContentId.equals(that.fatherContentId) : that.fatherContentId != null)
+            return false;
 
         return true;
     }
 
     @Override
-    public int hashCode(){
-        return this.likeNum;
+    public int hashCode() {
+        int result = contentId != null ? contentId.hashCode() : 0;
+        result = 31 * result + userId;
+        result = 31 * result + likeNum;
+        result = 31 * result + commentNum;
+        result = 31 * result + (lastEditTime != null ? lastEditTime.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(picture);
+        result = 31 * result + reportNum;
+        result = 31 * result + (reviewState != null ? reviewState.hashCode() : 0);
+        result = 31 * result + (label != null ? label.hashCode() : 0);
+        result = 31 * result + (fatherContentId != null ? fatherContentId.hashCode() : 0);
+        result = 31 * result + (int) fatherType;
+        return result;
     }
 }
