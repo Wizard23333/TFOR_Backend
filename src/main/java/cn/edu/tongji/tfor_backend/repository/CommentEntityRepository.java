@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface CommentEntityRepository extends JpaRepository<CommentEntity, Integer> {
 
     @Modifying
@@ -30,4 +32,7 @@ public interface CommentEntityRepository extends JpaRepository<CommentEntity, In
     @Modifying
     @Query(value = "delete c from comment c where c.content_id=:contentId",nativeQuery = true)
     void deleteByContentId(@Param("contentId") String contentId);
+
+    @Query(value = "select * from comment c where c.father_type=1 and c.father_content_id=:postId", nativeQuery = true)
+    List<CommentEntity> getCommentOfPost(@Param("postId") String postId);
 }
