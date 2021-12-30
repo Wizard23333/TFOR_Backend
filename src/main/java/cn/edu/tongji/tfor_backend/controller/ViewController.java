@@ -29,7 +29,6 @@ public class ViewController {
     @Autowired
     PostService postService;
 
-
     @Operation(summary = "get all zones information") // distribution for single api
     @GetMapping("getAllZone") // mapping url
     public HttpResponse getAllZoneNames() {
@@ -104,6 +103,17 @@ public class ViewController {
                 return HttpResponse.error("Zone ID does not exist!","404");
             }
             return HttpResponse.success(z);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+    @Operation(summary = "get comment of a post by content_id")
+    @GetMapping("getCommentOfPost")
+    public HttpResponse getZoneInfoById(String contentId) {
+        try {
+            return HttpResponse.success(postService.getCommentOfPost(contentId));
         }
         catch (Exception e) {
             return HttpResponse.error(e.toString());

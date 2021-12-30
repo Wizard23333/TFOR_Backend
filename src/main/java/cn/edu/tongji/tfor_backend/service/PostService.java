@@ -19,4 +19,5 @@ public interface PostService {
     int deleteComment(String cid);
     PostEntity getByPostId(String postId);
     List<PostEntity> getPostListByIdList(List<String> idList);
+    List<CommentEntity> getCommentOfPost(String postId);
 }
