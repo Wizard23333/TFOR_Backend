@@ -130,5 +130,8 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
         return postSimpleInfos;
     }
 
-
+    public ZoneEntity getZoneInfoById(Integer zoneId) {
+        ZoneEntity z = zoneEntityRepository.getById(zoneId);
+        return z;
+    }
 }

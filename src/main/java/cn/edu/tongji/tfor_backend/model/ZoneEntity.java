@@ -1,7 +1,10 @@
 package cn.edu.tongji.tfor_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })
 @Entity
 @Table(name = "zone", schema = "seDB", catalog = "")
 public class ZoneEntity {
