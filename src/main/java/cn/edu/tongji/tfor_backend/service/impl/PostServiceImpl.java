@@ -137,9 +137,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public int deleteComment(String contentId) {
         commentEntityRepository.deleteCommentOfComment(contentId);
-        //这里有问题！！
-//        commentEntityRepository.
-//        commentEntityRepository.delete(commentEntityRepository);
+        commentEntityRepository.deleteByContentId(contentId);
         return 0;
     }
 
