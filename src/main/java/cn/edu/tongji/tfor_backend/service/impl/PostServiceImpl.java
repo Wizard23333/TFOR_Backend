@@ -154,4 +154,9 @@ public class PostServiceImpl implements PostService {
         }
         return postEntityList;
     }
+
+    public List<CommentEntity> getCommentOfPost(String postId) {
+        return commentEntityRepository.getCommentOfPost(postId);
+    }
+
 }
