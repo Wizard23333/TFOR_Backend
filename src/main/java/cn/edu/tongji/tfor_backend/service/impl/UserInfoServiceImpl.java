@@ -39,8 +39,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     PostEntityRepository postEntityRepository;
 
     @Override
-    public void createUserByObject(UserEntity newUser){
-        userEntityRepository.save(newUser);
+    public boolean createUserByObject(UserEntity newUser){
+        if (!userEntityRepository.existsById(newUser.getUserId())){
+            userEntityRepository.save(newUser);
+            return true;
+        }
+        return false;
     }
 
     //判断用户id是否存在
