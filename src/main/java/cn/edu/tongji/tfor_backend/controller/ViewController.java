@@ -95,7 +95,18 @@ public class ViewController {
         }
     }
 
-
-
-
+    @Operation(summary = "get zone info by zone id")
+    @GetMapping("getZoneInfoById")
+    public HttpResponse getZoneInfoById(int zoneId) {
+        try {
+            ZoneEntity z = zoneInfoService.getZoneInfoById(zoneId);
+            if(z == null) {
+                return HttpResponse.error("Zone ID does not exist!","404");
+            }
+            return HttpResponse.success(z);
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
 }
