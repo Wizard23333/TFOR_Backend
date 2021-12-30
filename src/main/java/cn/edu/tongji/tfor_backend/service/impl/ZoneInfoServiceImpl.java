@@ -111,6 +111,7 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
             simpleInfo.setPostId(tempPost.getContentId());
             simpleInfo.setUserId(tempPost.getUserId());
             simpleInfo.setLikeNum(tempPost.getLikeNum());
+            simpleInfo.setLabel(tempPost.getLabel());
             list.add(simpleInfo);
         }
         return list;
@@ -125,6 +126,7 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
             postSimpleInfo.setPostTitle(item.getPostTitle());
             postSimpleInfo.setUserId(item.getUserId());
             postSimpleInfo.setLikeNum(item.getLikeNum());
+            postSimpleInfo.setLabel(item.getLabel());
             postSimpleInfos.add(postSimpleInfo);
         }
         return postSimpleInfos;

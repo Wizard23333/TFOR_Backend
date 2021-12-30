@@ -4,24 +4,21 @@ import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 import cn.edu.tongji.tfor_backend.exceptionclass.LoginException;
 import cn.edu.tongji.tfor_backend.exceptionclass.RegisterException;
 import cn.edu.tongji.tfor_backend.exceptionclass.VerifyException;
+import cn.edu.tongji.tfor_backend.kafka.KafkaProducer;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.myannotation.Auth;
 import cn.edu.tongji.tfor_backend.service.EmailService;
 import cn.edu.tongji.tfor_backend.service.TelephoneService;
 import cn.edu.tongji.tfor_backend.service.TokenService;
 import cn.edu.tongji.tfor_backend.service.UserInfoService;
+import com.auth0.jwt.JWT;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.Header;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -40,6 +37,9 @@ public class UserController {
     @Autowired
     TelephoneService telephoneService;
 
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
     //用户注册
     @Operation(summary = "api for user register") // distribution for single api
     @PostMapping("register") // mapping url
@@ -52,7 +52,8 @@ public class UserController {
         catch (Exception e) {
             return HttpResponse.error(e.toString());
         }
-        return HttpResponse.success("register successfully");
+        int uid = userInfoService.getUidByTel(newUser.getUserTel());
+        return HttpResponse.success(uid);
     }
 
     //用户使用密码登录
@@ -121,6 +122,7 @@ public class UserController {
 
     //用户修改其他个人信息
     //使用JSONObject作为形参更加灵活
+    @Auth
     @Operation(summary = "INPUT PARAM:[uid],[userName],[userGender],[userImage].后面3个选项可选")
     @PutMapping("modify")
     public HttpResponse modifyUserInfo(@RequestBody JSONObject jsonObject){
@@ -143,6 +145,7 @@ public class UserController {
     }
 
     //用户修改手机号信息
+    @Auth
     @Operation(summary = "INPUT PARAM:[uid],[telNum],[verifyCode]")
     @PutMapping("changePhoneNbr")
     public HttpResponse changePhoneNbr(@RequestBody JSONObject jsonObject){
@@ -164,6 +167,7 @@ public class UserController {
     }
 
     //用户修改邮箱号信息
+    @Auth
     @Operation(summary = "INPUT PARAM:[uid],[email],[verifyCode]")
     @PutMapping("changeEmail")
     public HttpResponse changeEmail(@RequestBody JSONObject jsonObject){
@@ -185,11 +189,10 @@ public class UserController {
     }
 
     //发送邮箱验证码请求
-    //@Auth
     @GetMapping("getverifycode/email/{emailaddr}")
     public HttpResponse getEmailVerifyCode(@PathVariable String emailaddr){
         try{
-            emailService.sendEmailVerifyCode(emailaddr);
+            kafkaProducer.sendChannelMess("emailTopic", emailaddr);
             return HttpResponse.success();
         }
         catch (Exception e) {
@@ -201,7 +204,7 @@ public class UserController {
     @GetMapping("getverifycode/tel/{telnum}")
     public HttpResponse getTelVerifyCode(@PathVariable String telnum){
         try{
-            telephoneService.sendTelVerifyCode(telnum);
+            kafkaProducer.sendChannelMess("telTopic", telnum);
             return HttpResponse.success();
         }
         catch (Exception e) {
@@ -209,6 +212,7 @@ public class UserController {
         }
     }
 
+    @Auth
     @GetMapping("getInfo/{userId}")
     @Operation(summary = "get user base Info by userId")
     public HttpResponse getUserInfoByUserId(@PathVariable Integer userId) {
@@ -226,7 +230,7 @@ public class UserController {
         }
     }
 
-//    @Auth
+    @Auth
     @GetMapping("getInfoNeedAuth/{userId}")
     @Operation(summary = "get user Info with authorizeation")
     public HttpResponse getUserInfoNeedAuth(@PathVariable Integer userId) {
@@ -327,5 +331,13 @@ public class UserController {
         catch (Exception e) {
             return  HttpResponse.error(e.toString());
         }
+    }
+
+    @GetMapping("getUidByToken")
+    @Operation(summary = "get uid by token")
+    public HttpResponse getUidByToken(@RequestBody JSONObject jsonObject){
+        String token = jsonObject.getString("token");
+        String uid = JWT.decode(token).getAudience().get(0);
+        return HttpResponse.success(uid);
     }
 }

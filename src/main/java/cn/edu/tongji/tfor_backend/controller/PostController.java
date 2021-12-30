@@ -5,25 +5,22 @@ import cn.edu.tongji.tfor_backend.model.AdvertisementEntity;
 import cn.edu.tongji.tfor_backend.model.CommentEntity;
 import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneOwnPostEntity;
+import cn.edu.tongji.tfor_backend.myannotation.Auth;
 import cn.edu.tongji.tfor_backend.service.PostService;
-import cn.edu.tongji.tfor_backend.service.impl.PostServiceImpl;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 
+@Auth
 @RestController
 @RequestMapping("api/post")
 @Api(tags = "apis for post different types of contents") // distribution for this series of api
 public class PostController {
     @Autowired
     PostService postService;
-
-    final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Autowired
     private KafkaProducer kafkaProducer;
@@ -70,11 +67,11 @@ public class PostController {
         try {
             kafkaProducer.sendChannelMess("commentTopic",
                     JSON.toJSONString(newComment));
+            return HttpResponse.success("Post successfully");
         }
         catch (Exception e) {
             return HttpResponse.error(e.toString());
         }
-        return HttpResponse.success("Post successfully");
     }
 
     @Operation(summary = "delete a content(including delete comments and the relation of belonging to a zone)")
