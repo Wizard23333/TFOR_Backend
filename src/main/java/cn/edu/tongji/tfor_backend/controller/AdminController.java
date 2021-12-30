@@ -67,7 +67,7 @@ public class AdminController {
         }
     }
 
-    @Operation(summary = "set the label of post(1.Normal 2.NotNormal)")
+    @Operation(summary = "set the label of post(1.Normal 2.NotNormal 3.FakeNews 4.EighteenPlus)")
     @PutMapping("setPostLabel")
     HttpResponse setPostState(String contentId, Integer label) {
         try {
@@ -79,7 +79,7 @@ public class AdminController {
         return HttpResponse.success();
     }
 
-    @Operation(summary = "set the state of comment")
+    @Operation(summary = "set the state of comment (1.Normal 2.NotNormal 3.FakeNews 4.EighteenPlus)")
     @PutMapping("setCommentLabel")
     HttpResponse setCommentState(String contentId, Integer label) {
         try {
