@@ -1,6 +1,7 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 import cn.edu.tongji.tfor_backend.enums.PostLabel;
 import cn.edu.tongji.tfor_backend.enums.PostState;
+import cn.edu.tongji.tfor_backend.exceptionclass.PostException;
 import cn.edu.tongji.tfor_backend.model.*;
 import cn.edu.tongji.tfor_backend.repository.AdvertisementEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.CommentEntityRepository;
@@ -33,7 +34,7 @@ public class PostServiceImpl implements PostService {
     ZoneOwnPostEntityRepository zoneOwnPostEntityRepository;
 
     @Override
-    public int postContent(PostEntity p) {
+    public int postContent(PostEntity p) throws PostException {
         PostEntity newPost = new PostEntity();
         newPost.setUserId(p.getUserId());
         newPost.setLikeNum(0);
@@ -50,6 +51,10 @@ public class PostServiceImpl implements PostService {
         newPost.setPostTitle(p.getPostTitle());
         newPost.setVideo(p.getVideo());
         newPost.setContentId(p.getContentId());
+        if(postEntityRepository.isPresent(p.getContentId())!=0) {
+            PostException exception = new PostException("post contentId already exists");
+            throw exception;
+        }
         postEntityRepository.save(newPost);
 
         return 0;
@@ -68,7 +73,6 @@ public class PostServiceImpl implements PostService {
         newAdver.setAdmId(a.getAdmId());
         Timestamp now= new Timestamp(System.currentTimeMillis());//get the current system time
         newAdver.setLastEditTime(now);
-        newAdver.setPicture(a.getPicture());
         newAdver.setPostTitle(a.getPostTitle());
         newAdver.setVideo(a.getVideo());
 
@@ -78,7 +82,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public int postComment(CommentEntity c) {
+    public int postComment(CommentEntity c) throws PostException {
         CommentEntity newComment = new CommentEntity();
 
         newComment.setUserId(c.getUserId());
@@ -93,6 +97,22 @@ public class PostServiceImpl implements PostService {
         newComment.setLabel("Normal");
         newComment.setFatherContentId(c.getFatherContentId());
         newComment.setFatherType(c.getFatherType());
+        if (c.getFatherType()==1) {
+            if (postEntityRepository.isPresent(c.getFatherContentId())==0) {
+                PostException e = new PostException("Father(post) content Id not exists");
+                throw e;
+            }
+        }
+        else if(c.getFatherType()==0) {
+            if (commentEntityRepository.isPresent(c.getFatherContentId())==0) {
+                PostException e = new PostException("Father(comment) content Id not exists");
+                throw e;
+            }
+        }
+        else {
+            PostException e = new PostException("Invalid father type");
+            throw e;
+        }
         newComment.setContentId(c.getContentId());
         commentEntityRepository.save(newComment);
         return 0;

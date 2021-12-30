@@ -42,4 +42,6 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, Integer>
 
     List<PostEntity> findByUserId(Integer userId);
 
+    @Query(value = "select count(*) from post p where p.content_id=:contentId", nativeQuery = true)
+    Integer isPresent(@Param("contentId") String contentId);
 }

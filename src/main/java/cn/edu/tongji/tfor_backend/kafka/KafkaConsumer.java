@@ -1,5 +1,6 @@
 package cn.edu.tongji.tfor_backend.kafka;
 
+import cn.edu.tongji.tfor_backend.exceptionclass.PostException;
 import cn.edu.tongji.tfor_backend.model.CommentEntity;
 import cn.edu.tongji.tfor_backend.service.PostService;
 import cn.edu.tongji.tfor_backend.service.impl.PostServiceImpl;
@@ -19,7 +20,7 @@ public class KafkaConsumer {
 
     //监听commentTopic主题,有消息就读取
     @KafkaListener(topics = {"commentTopic"})
-    public void receiveMessage(String message) {
+    public void receiveMessage(String message) throws PostException {
         //收到通道的消息之后执行更新评论操作
         logger.info("###################"+message);
         CommentEntity newComment = JSON.parseObject(message, CommentEntity.class);
