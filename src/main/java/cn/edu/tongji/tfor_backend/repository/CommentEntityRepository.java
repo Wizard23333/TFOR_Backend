@@ -35,4 +35,13 @@ public interface CommentEntityRepository extends JpaRepository<CommentEntity, In
 
     @Query(value = "select * from comment c where c.father_type=1 and c.father_content_id=:postId", nativeQuery = true)
     List<CommentEntity> getCommentOfPost(@Param("postId") String postId);
+
+    @Query(value = "select * from comment c where c.content_id=:contentId", nativeQuery = true)
+    CommentEntity findByContentId(@Param("contentId") String contentId);
+
+    @Query(value="select * from comment p where p.report_num>=:reportNum and (p.review_state='Not Reviewed' or p.review_state='NotReviewed') and p.label='Reported'", nativeQuery = true)
+    List<CommentEntity> getReportedCommentList(@Param("reportNum") int reportNum);
+
+    @Query(value="select * from comment p where p.review_state='Reviewed'", nativeQuery = true)
+    List<CommentEntity> getReviewedCommentList();
 }

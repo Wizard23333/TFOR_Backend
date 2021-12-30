@@ -93,8 +93,8 @@ public class PostServiceImpl implements PostService {
         newComment.setText(c.getText());
         newComment.setPicture(c.getPicture());
         newComment.setReportNum(0);
-        newComment.setReviewState("Not Reviewed");
-        newComment.setLabel("Normal");
+        newComment.setReviewState(PostState.NotReviewed.toString());
+        newComment.setLabel(PostLabel.Normal.toString());
         newComment.setFatherContentId(c.getFatherContentId());
         newComment.setFatherType(c.getFatherType());
         if (c.getFatherType()==1) {
@@ -159,4 +159,17 @@ public class PostServiceImpl implements PostService {
         return commentEntityRepository.getCommentOfPost(postId);
     }
 
+    public void reportPost(String post_id) {
+        PostEntity p = postEntityRepository.findByContentId(post_id);
+        p.setReportNum(p.getReportNum()+1);
+        p.setLabel(PostLabel.Reported.toString());
+        postEntityRepository.save(p);
+    }
+
+    public void reportComment(String comment_id) {
+        CommentEntity c = commentEntityRepository.findByContentId(comment_id);
+        c.setReportNum(c.getReportNum()+1);
+        c.setLabel(PostLabel.Reported.toString());
+        commentEntityRepository.save(c);
+    }
 }
