@@ -42,6 +42,12 @@ public class AdminServiceImpl implements AdminService {
         else if(label==2) {
             p.setLabel(PostLabel.NotNormal.toString());
         }
+        else if(label==3) {
+            p.setLabel(PostLabel.FakeNews.toString());
+        }
+        else if(label==4) {
+            p.setLabel(PostLabel.EighteenPlus.toString());
+        }
         else {
             AdminException e = new AdminException("Invalid label type");
             throw e;
@@ -58,6 +64,12 @@ public class AdminServiceImpl implements AdminService {
         }
         else if(label==2) {
             p.setLabel(PostLabel.NotNormal.toString());
+        }
+        else if(label==3) {
+            p.setLabel(PostLabel.FakeNews.toString());
+        }
+        else if(label==4) {
+            p.setLabel(PostLabel.EighteenPlus.toString());
         }
         else {
             AdminException e = new AdminException("Invalid label type");
