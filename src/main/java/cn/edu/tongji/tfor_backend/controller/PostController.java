@@ -78,8 +78,8 @@ public class PostController {
     }
 
     @Operation(summary = "delete a content(including delete comments and the relation of belonging to a zone)")
-    @DeleteMapping(value = "deleteContent")
-    public HttpResponse deleteContent(String contentId) {
+    @DeleteMapping(value = "deleteContent/{contentId}")
+    public HttpResponse deleteContent(@PathVariable("contentId") String contentId) {
         try {
             postService.deleteContent(contentId);
         }
@@ -90,8 +90,8 @@ public class PostController {
     }
 
     @Operation(summary = "delete am advertisement")
-    @DeleteMapping(value = "deleteAdvertisement")
-    public HttpResponse deleteAdvertisement(Integer contentId) {
+    @DeleteMapping(value = "deleteAdvertisement/{contentId}")
+    public HttpResponse deleteAdvertisement(@PathVariable("contentId") Integer contentId) {
         try {
             postService.deleteAdvertisement(contentId);
         }
@@ -102,8 +102,8 @@ public class PostController {
     }
 
     @Operation(summary = "delete a comment by comment ID")
-    @DeleteMapping(value = "deleteComment")
-    public HttpResponse deleteComment(String contentId) {
+    @DeleteMapping(value = "deleteComment/{contentId}")
+    public HttpResponse deleteComment(@PathVariable("contentId") String contentId) {
         try {
             postService.deleteComment(contentId);
         }

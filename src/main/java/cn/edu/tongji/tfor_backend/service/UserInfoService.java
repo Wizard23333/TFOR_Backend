@@ -4,7 +4,6 @@ import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneEntity;
 
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ public interface UserInfoService {
 
     String getPwdById(int uid);
 
-    void createUserByObject(UserEntity newUser);
+    boolean createUserByObject(UserEntity newUser);
 
     boolean loginByPwd(int uid, String pwd);
 
