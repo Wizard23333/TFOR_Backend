@@ -6,9 +6,12 @@ import cn.edu.tongji.tfor_backend.model.CommentEntity;
 import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneOwnPostEntity;
 import cn.edu.tongji.tfor_backend.service.PostService;
+import cn.edu.tongji.tfor_backend.service.impl.PostServiceImpl;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
@@ -19,6 +22,8 @@ import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 public class PostController {
     @Autowired
     PostService postService;
+
+    final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Autowired
     private KafkaProducer kafkaProducer;
@@ -63,6 +68,7 @@ public class PostController {
     @PostMapping(value = "postComment")
     public HttpResponse postComment(@RequestBody CommentEntity newComment) {
         try {
+            logger.info("!!!!!!!!!!!!!!!!!!!"+newComment.getContentId());
             kafkaProducer.sendChannelMess("commentTopic",
                     JSON.toJSONString(newComment));
         }
