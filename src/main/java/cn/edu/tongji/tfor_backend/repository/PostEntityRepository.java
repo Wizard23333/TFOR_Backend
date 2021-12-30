@@ -23,7 +23,8 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, Integer>
     @Query(value = "update post set report_num=report_num+1 where content_id=:cid",nativeQuery = true)
     void addReportNum(@Param("cid") String cid);
 
-    PostEntity findByContentId(String contentId);
+    @Query(value = "select * from post p where p.content_id=:contentId", nativeQuery = true)
+    PostEntity findByContentId(@Param("contentId") String contentId);
 
     // 根据时间区间和likenum查询前50条
     List<PostEntity> findTop50ByLastEditTimeBetweenOrderByLikeNumDesc(Timestamp t1, Timestamp t2);
@@ -44,4 +45,10 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, Integer>
 
     @Query(value = "select count(*) from post p where p.content_id=:contentId", nativeQuery = true)
     Integer isPresent(@Param("contentId") String contentId);
+
+    @Query(value="select * from post p where p.report_num>=:reportNum and (p.review_state='Not Reviewed' or p.review_state='NotReviewed') and p.label='Reported'", nativeQuery = true)
+    List<PostEntity> getReportedPostList(@Param("reportNum") int reportNum);
+
+    @Query(value="select * from post p where p.review_state='Reviewed'", nativeQuery = true)
+    List<PostEntity> getReviewedPostList();
 }

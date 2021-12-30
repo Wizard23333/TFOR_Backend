@@ -119,4 +119,28 @@ public class ViewController {
             return HttpResponse.error(e.toString());
         }
     }
+
+    @Operation(summary = "report a post")
+    @GetMapping("reportPost/{contentId}")
+    public HttpResponse reportPost(@PathVariable String contentId) {
+        try {
+            postService.reportPost(contentId);
+            return HttpResponse.success("report successfully");
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
+
+    @Operation(summary = "report a comment")
+    @GetMapping("reportComment/{contentId}")
+    public HttpResponse reportComment(@PathVariable String contentId) {
+        try {
+            postService.reportComment(contentId);
+            return HttpResponse.success("report successfully");
+        }
+        catch (Exception e) {
+            return HttpResponse.error(e.toString());
+        }
+    }
 }

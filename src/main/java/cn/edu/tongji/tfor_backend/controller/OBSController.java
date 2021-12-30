@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/obs")
-@Api("object storage service controller")
+@Api(tags = "object storage service controller")
 public class OBSController {
     @Autowired
     ObsUploadService obsUploadService;

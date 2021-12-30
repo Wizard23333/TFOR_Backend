@@ -20,4 +20,6 @@ public interface PostService {
     PostEntity getByPostId(String postId);
     List<PostEntity> getPostListByIdList(List<String> idList);
     List<CommentEntity> getCommentOfPost(String postId);
+    void reportPost(String post_id);
+    void reportComment(String comment_id);
 }
