@@ -7,6 +7,8 @@ import cn.edu.tongji.tfor_backend.repository.CommentEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
 import cn.edu.tongji.tfor_backend.repository.ZoneOwnPostEntityRepository;
 import cn.edu.tongji.tfor_backend.service.PostService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
