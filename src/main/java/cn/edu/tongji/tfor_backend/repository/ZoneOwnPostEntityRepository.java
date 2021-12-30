@@ -15,7 +15,7 @@ public interface ZoneOwnPostEntityRepository extends JpaRepository<ZoneOwnPostEn
     List<ZoneOwnPostEntity> findByZoneId(Integer zoneId);
 
 
-    @Query(value="delete z from zone_own_post z where z.content_id=postId", nativeQuery = true)
+    @Query(value="delete z from zone_own_post z where z.content_id=:postId", nativeQuery = true)
     @Modifying
     void deleteByPostId(@Param("postId") String postId);
 }

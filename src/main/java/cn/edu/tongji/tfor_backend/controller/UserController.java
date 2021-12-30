@@ -1,6 +1,9 @@
 package cn.edu.tongji.tfor_backend.controller;
 
 import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
+import cn.edu.tongji.tfor_backend.exceptionclass.LoginException;
+import cn.edu.tongji.tfor_backend.exceptionclass.RegisterException;
+import cn.edu.tongji.tfor_backend.exceptionclass.VerifyException;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.myannotation.Auth;
 import cn.edu.tongji.tfor_backend.service.EmailService;
@@ -42,7 +45,9 @@ public class UserController {
     @PostMapping("register") // mapping url
     public HttpResponse createUserByObject(@RequestBody UserEntity newUser) {
         try {
-            userInfoService.createUserByObject(newUser);
+            if (!userInfoService.createUserByObject(newUser)){
+                throw new RegisterException("The user ID already exists");
+            }
         }
         catch (Exception e) {
             return HttpResponse.error(e.toString());
@@ -63,7 +68,7 @@ public class UserController {
                 resp.put("token", tokenService.createToken(String.valueOf(uid), 0));
                 return HttpResponse.success(resp);
             } else {
-                return HttpResponse.error("No content");
+                throw new LoginException("The user id or pwd is incorrect!");
             }
         }
         catch (Exception e) {
@@ -85,7 +90,7 @@ public class UserController {
                 resp.put("token", tokenService.createToken(email, 1));
                 return HttpResponse.success(resp);
             } else {
-                return HttpResponse.error("No content");
+                throw new VerifyException("VerifyCode is incorrect!");
             }
         }
         catch(Exception e) {
@@ -106,7 +111,7 @@ public class UserController {
                 resp.put("token",tokenService.createToken(tel, 2));
                 return HttpResponse.success(resp);
             }else{
-                return HttpResponse.error("No content");
+                throw new VerifyException("VerifyCode is incorrect!");
             }
         }
         catch (Exception e) {
@@ -124,6 +129,9 @@ public class UserController {
         String userGender = jsonObject.getString("userGender");
         String userImage = jsonObject.getString("userImage");
         try {
+            if (!userInfoService.existById(uid)){
+                throw new Exception("User id is not existed!");
+            }
             userInfoService.changeUserName(uid, userName);
             userInfoService.changeUserGender(uid, userGender);
             userInfoService.changeUserImage(uid, userImage);
@@ -146,8 +154,9 @@ public class UserController {
             if (Objects.equals(verifyCode, telVerifyCode)){
                 userInfoService.changePhoneNbr(uid, newTelNbr);
                 return HttpResponse.success();
+            }else {
+                throw new VerifyException("VerifyCode is incorrect!");
             }
-            return HttpResponse.error("verifyCode error");
         }
         catch (Exception e) {
             return HttpResponse.error(e.toString());
@@ -165,8 +174,10 @@ public class UserController {
             String emailVerifyCode = emailService.getEmailVerifyCode();
             if (Objects.equals(verifyCode, emailVerifyCode)) {
                 userInfoService.changeEmail(uid, newEmail);
+                return HttpResponse.success();
+            }else {
+                throw new VerifyException("VerifyCode is incorrect!");
             }
-            return HttpResponse.success();
         }
         catch (Exception e) {
             return HttpResponse.error(e.toString());
