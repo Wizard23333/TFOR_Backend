@@ -1,18 +1,16 @@
 package cn.edu.tongji.tfor_backend.controller;
 
 import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
-import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.UserCollectionEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowUserEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntity;
+import cn.edu.tongji.tfor_backend.myannotation.Auth;
 import cn.edu.tongji.tfor_backend.service.ActionService;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import cn.edu.tongji.tfor_backend.service.ActionService;
+
+@Auth
 @RestController
 @RequestMapping("api/action")
 @Api(tags="Action APIS")
@@ -84,12 +82,5 @@ public class ActionController {
         actionService.reportPost(contentId);
         return HttpResponse.success("report successfully");
     }
-
-
-
-
-
-
-
 
 }

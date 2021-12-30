@@ -34,5 +34,6 @@ public interface ZoneInfoService {
         String postId;
         Integer userId;
         Integer likeNum;
+        String label;
     }
 }

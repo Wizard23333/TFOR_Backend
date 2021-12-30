@@ -40,7 +40,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public boolean createUserByObject(UserEntity newUser){
-        if (!userEntityRepository.existsById(newUser.getUserId())){
+        if (userEntityRepository.ifExistsByTel(newUser.getUserTel())==0){
             userEntityRepository.save(newUser);
             return true;
         }
@@ -58,6 +58,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public String getPwdById(int uid){
         return userEntityRepository.getPwdById(uid);
     }
+
+    @Override
+    public int getUidByTel(String tel) {return userEntityRepository.getUidByTel(tel);}
 
     @Override
     public boolean loginByPwd(int uid, String pwd){
