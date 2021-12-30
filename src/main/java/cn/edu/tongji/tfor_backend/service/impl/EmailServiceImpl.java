@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
 
     //发送邮件
     //设置一系列相关参数
-    @Async
+    // @Async
     @Override
     public void sendEmailVerifyCode(String receiver) throws MailSendException {
         SimpleMailMessage message = new SimpleMailMessage();

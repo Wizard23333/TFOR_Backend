@@ -1,5 +1,6 @@
 package cn.edu.tongji.tfor_backend.controller;
 import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
+import cn.edu.tongji.tfor_backend.myannotation.Auth;
 import cn.edu.tongji.tfor_backend.service.ObsGetService;
 import cn.edu.tongji.tfor_backend.service.ObsUploadService;
 import com.alibaba.fastjson.JSONObject;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Auth
 @RestController
 @RequestMapping("api/obs")
 @Api(tags = "object storage service controller")

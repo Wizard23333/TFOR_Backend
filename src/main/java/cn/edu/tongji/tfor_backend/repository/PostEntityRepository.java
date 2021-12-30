@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.List;
 
-public interface PostEntityRepository extends JpaRepository<PostEntity, Integer> {
+public interface PostEntityRepository extends JpaRepository<PostEntity, String> {
 
     @Transactional
     @Modifying

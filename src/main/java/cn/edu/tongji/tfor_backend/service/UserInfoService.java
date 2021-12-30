@@ -14,6 +14,8 @@ public interface UserInfoService {
 
     String getPwdById(int uid);
 
+    int getUidByTel(String tel);
+
     boolean createUserByObject(UserEntity newUser);
 
     boolean loginByPwd(int uid, String pwd);

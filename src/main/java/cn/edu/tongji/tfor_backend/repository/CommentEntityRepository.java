@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface CommentEntityRepository extends JpaRepository<CommentEntity, Integer> {
+public interface CommentEntityRepository extends JpaRepository<CommentEntity, String> {
 
     @Modifying
     @Query(value =
