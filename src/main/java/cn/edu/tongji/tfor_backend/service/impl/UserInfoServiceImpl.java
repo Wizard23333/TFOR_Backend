@@ -1,6 +1,7 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 
 import cn.edu.tongji.tfor_backend.model.PostEntity;
+import cn.edu.tongji.tfor_backend.model.UserCollectionEntityPK;
 import cn.edu.tongji.tfor_backend.model.UserEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneEntity;
 import cn.edu.tongji.tfor_backend.repository.*;
@@ -188,6 +189,14 @@ public class UserInfoServiceImpl implements UserInfoService {
             return null;
         }
         return postEntityRepository.findByUserId(userId);
+    }
+
+    @Override
+    public boolean checkIfCollected(int userId, String postId){
+        UserCollectionEntityPK userCollectionEntityPK = new UserCollectionEntityPK();
+        userCollectionEntityPK.setUserId(userId);
+        userCollectionEntityPK.setContentId(postId);
+        return userCollectionEntityRepository.existsById(userCollectionEntityPK);
     }
 
 }

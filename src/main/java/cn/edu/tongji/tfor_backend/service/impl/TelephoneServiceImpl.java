@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TelephoneServiceImpl implements TelephoneService {
     //用于验证的系统校验码
-    public static String telVerifyCode = null;
+    public String telVerifyCode = "";
 
     /*
     腾讯云账户密钥对
@@ -100,7 +100,7 @@ public class TelephoneServiceImpl implements TelephoneService {
 
             /* 模板参数: 若无模板参数，则设置为空*/
             String verifyCode = EmailServiceImpl.generateVerCode();
-            telVerifyCode = verifyCode;
+            this.telVerifyCode = verifyCode;
             String[] templateParams = { verifyCode };
             req.setTemplateParamSet(templateParams);
 
@@ -113,6 +113,6 @@ public class TelephoneServiceImpl implements TelephoneService {
     }
 
     public String getTelVerifyCode(){
-        return telVerifyCode;
+        return this.telVerifyCode;
     }
 }

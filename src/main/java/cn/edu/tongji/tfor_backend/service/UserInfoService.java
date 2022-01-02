@@ -45,4 +45,6 @@ public interface UserInfoService {
     // 通过userid查找发布的帖子
     List<PostEntity> getPostListByUserId(Integer userId);
 
+    boolean checkIfCollected(int userId, String postId);
+
 }

@@ -35,11 +35,13 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = {"emailTopic"})
     public void receiveEmailMessage(String message){
+
         emailService.sendEmailVerifyCode(message);
     }
 
     @KafkaListener(topics = {"telTopic"})
     public void receiveTelMessage(String message){
+
         telephoneService.sendTelVerifyCode(message);
     }
 }
