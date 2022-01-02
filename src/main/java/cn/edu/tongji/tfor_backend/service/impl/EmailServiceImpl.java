@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
     private String sender;
 
     //用于验证的系统校验码
-    public static String emailVerifyCode = null;
+    public String emailVerifyCode = "";
 
     //生成6位随机数字作为验证码
     private static final String SYMBOLS = "0123456789";
@@ -42,7 +42,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendEmailVerifyCode(String receiver) throws MailSendException {
         SimpleMailMessage message = new SimpleMailMessage();
         String verifyCode = generateVerCode();
-        emailVerifyCode = verifyCode;
+        this.emailVerifyCode = verifyCode;
         message.setSubject("TFOR-同济校园论坛验证码");	//设置邮件标题
         message.setText("尊敬的用户,您好:\n"
                 + "\n本次请求的邮件验证码为:" + verifyCode + ",本验证码5分钟内有效，请及时输入。（请勿泄露此验证码）\n"
@@ -54,6 +54,6 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public String getEmailVerifyCode(){
-        return emailVerifyCode;
+        return this.emailVerifyCode;
     }
 }
