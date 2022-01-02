@@ -17,8 +17,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 @RestController
@@ -54,6 +56,15 @@ public class UserController {
         }
         int uid = userInfoService.getUidByTel(newUser.getUserTel());
         return HttpResponse.success(uid);
+    }
+
+    //查看验证码是否正确
+    @Operation(summary = "check if verifycode is correct")
+    @GetMapping("checkVerifyCode/{verifyCode}")
+    public HttpResponse checkVerifyCode(@PathVariable("verifyCode") String verifyCode){
+        boolean fit = Objects.equals(verifyCode, telephoneService.getTelVerifyCode());
+        System.out.println(telephoneService.getTelVerifyCode());
+        return HttpResponse.success(fit);
     }
 
     //用户使用密码登录
@@ -108,6 +119,8 @@ public class UserController {
         String telVerifyCode = telephoneService.getTelVerifyCode();
         JSONObject resp = new JSONObject();
         try{
+            System.out.println(verifyCode);
+            System.out.println(telVerifyCode);
             if (Objects.equals(verifyCode, telVerifyCode)){
                 resp.put("token",tokenService.createToken(tel, 2));
                 return HttpResponse.success(resp);
@@ -339,5 +352,19 @@ public class UserController {
         String token = jsonObject.getString("token");
         String uid = JWT.decode(token).getAudience().get(0);
         return HttpResponse.success(uid);
+    }
+
+    //帖子是否被用户收藏
+    @GetMapping("ifPostsAreCollectedByUid")
+    @Operation(summary = "check if posts in the homepage are collected by user")
+    public HttpResponse checkIfPostsAreCollectedByUid(@RequestBody JSONObject jsonObject){
+        int uid = Integer.parseInt(jsonObject.getString("uid"));
+        String postIdList = jsonObject.getString("postid");
+        String[] postId = postIdList.split(",");
+        ArrayList<Boolean> res = new ArrayList<Boolean>();
+        for (String s : postId) {
+            res.add(userInfoService.checkIfCollected(uid, s));
+        }
+        return HttpResponse.success(res);
     }
 }

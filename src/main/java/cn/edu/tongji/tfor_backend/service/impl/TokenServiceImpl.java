@@ -16,6 +16,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public String createToken(String arg, int type) {
+        System.out.println(arg);
         int uid = 0;
         if (type==0){
             uid = Integer.parseInt(arg);
