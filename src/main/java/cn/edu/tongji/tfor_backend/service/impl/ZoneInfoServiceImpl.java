@@ -1,13 +1,7 @@
 package cn.edu.tongji.tfor_backend.service.impl;
 
-import cn.edu.tongji.tfor_backend.model.PostEntity;
-import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntity;
-import cn.edu.tongji.tfor_backend.model.ZoneEntity;
-import cn.edu.tongji.tfor_backend.model.ZoneOwnPostEntity;
-import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.UserFollowZoneEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.ZoneEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.ZoneOwnPostEntityRepository;
+import cn.edu.tongji.tfor_backend.model.*;
+import cn.edu.tongji.tfor_backend.repository.*;
 import cn.edu.tongji.tfor_backend.service.ZoneInfoService;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +24,8 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
     UserFollowZoneEntityRepository userFollowZoneEntityRepository;
     @Resource
     ZoneOwnPostEntityRepository zoneOwnPostEntityRepository;
+    @Resource
+    UserEntityRepository userEntityRepository;
 
     @Override
     public List<ZoneEntity> getAllZones() {
@@ -110,6 +106,7 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
             simpleInfo.setPostTitle(tempPost.getPostTitle());
             simpleInfo.setPostId(tempPost.getContentId());
             simpleInfo.setUserId(tempPost.getUserId());
+            simpleInfo.setUserName(userEntityRepository.findByUserId(tempPost.getUserId()).getUserName());
             simpleInfo.setLikeNum(tempPost.getLikeNum());
             simpleInfo.setLabel(tempPost.getLabel());
             list.add(simpleInfo);
@@ -125,6 +122,7 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
             postSimpleInfo.setPostId(item.getContentId());
             postSimpleInfo.setPostTitle(item.getPostTitle());
             postSimpleInfo.setUserId(item.getUserId());
+            postSimpleInfo.setUserName(userEntityRepository.findByUserId(postSimpleInfo.getUserId()).getUserName());
             postSimpleInfo.setLikeNum(item.getLikeNum());
             postSimpleInfo.setLabel(item.getLabel());
             postSimpleInfos.add(postSimpleInfo);
