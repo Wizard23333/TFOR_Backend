@@ -33,6 +33,7 @@ public interface ZoneInfoService {
         String postTitle;
         String postId;
         Integer userId;
+        String userName;
         Integer likeNum;
         String label;
     }
