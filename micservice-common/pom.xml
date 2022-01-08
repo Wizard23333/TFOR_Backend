@@ -6,25 +6,14 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>cn.edu.tongji.tfor_backend</groupId>
-    <artifactId>TFOR_Backend</artifactId>
+    <artifactId>micservice-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>micservice-common</module>
-        <module>tforbackend-user-8081</module>
-        <module>tforbackend-view-8082</module>
-        <module>tforbackend-post-8084</module>
-        <module>tforbackend-action-8085</module>
-        <module>tforbackend-admin-8086</module>
-        <module>tforbackend-obs-8087</module>
-    </modules>
-
-    <name>TFOR_Backend</name>
-    <description>TFOR_Backend</description>
+    <name>micservice-common</name>
+    <description>micservice-common</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -47,6 +36,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 
     <dependencies>
         <dependency>
@@ -88,12 +78,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.14</version>
@@ -117,23 +101,9 @@
             <version>[3.21.8,)</version>
         </dependency>
 
-        <!--kafka-->
         <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-core</artifactId>
-            <version>4.3.6.RELEASE</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-            <version>2.5.5.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.edu.tongji.tfor_backend</groupId>
-            <artifactId>micservice-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
     </dependencies>
@@ -141,21 +111,20 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <classifier>execute</classifier>
+                    <mainClass>cn.edu.tongji.tfor_backend.MicserviceCommonApplication</mainClass>
+                    <layout>ZIP</layout>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <skipTests>true</skipTests>    <!--默认关掉单元测试 -->
-                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
