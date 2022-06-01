@@ -1,18 +1,16 @@
 package cn.edu.tongji.tfor_backend.controller;
 
-import cn.edu.tongji.tfor_backend.kafka.KafkaProducer;
+import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 import cn.edu.tongji.tfor_backend.model.AdvertisementEntity;
 import cn.edu.tongji.tfor_backend.model.CommentEntity;
 import cn.edu.tongji.tfor_backend.model.PostEntity;
 import cn.edu.tongji.tfor_backend.model.ZoneOwnPostEntity;
 import cn.edu.tongji.tfor_backend.myannotation.Auth;
 import cn.edu.tongji.tfor_backend.service.PostService;
-import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 
 @Auth
 @RestController
@@ -21,9 +19,6 @@ import cn.edu.tongji.tfor_backend.configuration.HttpResponse;
 public class PostController {
     @Autowired
     PostService postService;
-
-    @Autowired
-    private KafkaProducer kafkaProducer;
 
     @Operation(summary = "post a content")
     @PostMapping(value="postContent")
@@ -65,8 +60,7 @@ public class PostController {
     @PostMapping(value = "postComment")
     public HttpResponse postComment(@RequestBody CommentEntity newComment) {
         try {
-            kafkaProducer.sendChannelMess("commentTopic",
-                    JSON.toJSONString(newComment));
+            postService.postComment(newComment);
             return HttpResponse.success("Post successfully");
         }
         catch (Exception e) {
