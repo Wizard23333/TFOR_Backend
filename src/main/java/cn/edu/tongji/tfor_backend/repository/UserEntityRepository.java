@@ -57,4 +57,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer>
 
     boolean existsByUserId(Integer userId);
 
+    Long deleteByUserTel(String userTel);
+
 }

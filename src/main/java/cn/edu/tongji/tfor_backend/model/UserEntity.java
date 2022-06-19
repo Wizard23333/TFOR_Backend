@@ -9,7 +9,7 @@ import java.util.Objects;
 public class UserEntity {
     private int userId;
     private String userName;
-    private byte userGender;
+    private Byte userGender;
     private String userPwd;
     private String userEmail;
     private String userTel;
@@ -43,7 +43,7 @@ public class UserEntity {
         return userGender;
     }
 
-    public void setUserGender(byte userGender) {
+    public void setUserGender(Byte userGender) {
         this.userGender = userGender;
     }
 

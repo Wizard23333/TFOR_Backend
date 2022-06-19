@@ -51,7 +51,7 @@ class ActionServiceImplTest {
 
     @ParameterizedTest
     @DisplayName("用户关注分区函数测试")
-    @CsvFileSource(resources = "/ActionServiceTestCSV/followZone.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/actionServiceTestCSV/followZone.csv", numLinesToSkip = 1)
     void followZone(int caseId, int userId, int zoneId, boolean expect) {
         UserFollowZoneEntity userFollowZoneEntity = new UserFollowZoneEntity();
         userFollowZoneEntity.setUserId(userId);
@@ -62,7 +62,7 @@ class ActionServiceImplTest {
 
     @ParameterizedTest
     @DisplayName("用户收藏帖子函数测试")
-    @CsvFileSource(resources = "/ActionServiceTestCSV/collectPost.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/actionServiceTestCSV/collectPost.csv", numLinesToSkip = 1)
     void collectPost(int caseId, int userId, String contentId, boolean expect) {
         UserCollectionEntity userCollectionEntity = new UserCollectionEntity();
         userCollectionEntity.setUserId(userId);
@@ -72,7 +72,7 @@ class ActionServiceImplTest {
 
     @ParameterizedTest
     @DisplayName("用户取消关注函数测试")
-    @CsvFileSource(resources = "/ActionServiceTestCSV/cancelFollowUser.csv", numLinesToSkip = 1)
+    @CsvFileSource(resources = "/actionServiceTestCSV/cancelFollowUser.csv", numLinesToSkip = 1)
     void cancelFollowUser(int caseId, int userId1, int userId2, boolean expect) {
         assertEquals(actionService.cancelFollowUser(userId1, userId2), expect,
                 "cancelFollowUser() failed");

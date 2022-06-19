@@ -47,4 +47,6 @@ public interface UserInfoService {
 
     boolean checkIfCollected(int userId, String postId);
 
+    Long deleteUserByTel(String tel);
+
 }

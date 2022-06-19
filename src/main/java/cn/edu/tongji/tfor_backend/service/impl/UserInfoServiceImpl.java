@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -39,8 +40,23 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     PostEntityRepository postEntityRepository;
 
+    private final String emailPattern = "^\\s*\\w+(?:\\.?[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
+
+    private final String telPattern = "^[1][3,4,5,7,8][0-9]{9}$";
     @Override
     public boolean createUserByObject(UserEntity newUser){
+        if(newUser.getUserEmail() == null || !Pattern.matches(emailPattern, newUser.getUserEmail())) {
+            return false;
+        }
+        if(newUser.getUserTel() == null || !Pattern.matches(telPattern, newUser.getUserTel())) {
+            return false;
+        }
+        if(newUser.getUserGender() > 1 || newUser.getUserGender() < 0) {
+            return false;
+        }
+        if(newUser.getUserName() == null || newUser.getUserPwd() == null) {
+            return false;
+        }
         if (userEntityRepository.ifExistsByTel(newUser.getUserTel())==0){
             userEntityRepository.save(newUser);
             return true;
@@ -197,6 +213,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         userCollectionEntityPK.setUserId(userId);
         userCollectionEntityPK.setContentId(postId);
         return userCollectionEntityRepository.existsById(userCollectionEntityPK);
+    }
+
+    @Override
+    @Transactional
+    public Long deleteUserByTel(String tel) {
+        return userEntityRepository.deleteByUserTel(tel);
     }
 
 }
