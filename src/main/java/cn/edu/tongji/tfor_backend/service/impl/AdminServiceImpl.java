@@ -35,6 +35,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     public void setPostState(String contentId, int label) throws AdminException {
+        if(!postEntityRepository.existsByContentId(contentId)) {
+            throw new AdminException("Invalid contentId");
+        }
         PostEntity p = postEntityRepository.findByContentId(contentId);
         if (label==1) {
             p.setLabel(PostLabel.Normal.toString());

@@ -10,11 +10,7 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-
-
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = TforBackendApplication.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -23,7 +19,6 @@ class UserInfoServiceImplTest {
 
     @Autowired
     UserInfoServiceImpl userInfoService;
-
 
 
     @AfterAll

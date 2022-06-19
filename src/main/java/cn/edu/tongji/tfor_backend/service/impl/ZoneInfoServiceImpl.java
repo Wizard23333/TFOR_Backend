@@ -58,6 +58,9 @@ public class ZoneInfoServiceImpl implements ZoneInfoService {
 
     @Override
     public List<PostSimpleInfo> getRank(Integer day) {
+        if(day <= 0) {
+            return null;
+        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 时间格式
 
         Timestamp timestamp1 = new Timestamp(System.currentTimeMillis()); // 当前的时间戳
