@@ -21,4 +21,6 @@ public interface ZoneEntityRepository extends JpaRepository<ZoneEntity, Integer>
         public String getZoneName();
     }
 
+    boolean existsByZoneId(int zoneId);
+
 }

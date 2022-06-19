@@ -51,4 +51,6 @@ public interface PostEntityRepository extends JpaRepository<PostEntity, String> 
 
     @Query(value="select * from post p where p.review_state='Reviewed'", nativeQuery = true)
     List<PostEntity> getReviewedPostList();
+
+    boolean existsByContentId(String contentId);
 }

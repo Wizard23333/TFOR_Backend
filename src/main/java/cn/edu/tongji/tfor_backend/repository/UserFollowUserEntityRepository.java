@@ -2,6 +2,7 @@ package cn.edu.tongji.tfor_backend.repository;
 
 import cn.edu.tongji.tfor_backend.model.UserFollowUserEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowUserEntityPK;
+import io.swagger.models.auth.In;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,6 @@ public interface UserFollowUserEntityRepository extends JpaRepository<UserFollow
 
     @Query("select userFollowedId from UserFollowUserEntity where userFollowingId = :userId")
     List<Integer> getUserFollowedIdByUserId(@Param("userId") Integer userId);
+
+    boolean existsByUserFollowingIdAndUserFollowedId(Integer followingId, Integer followedId);
 }

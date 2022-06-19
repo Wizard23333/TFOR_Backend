@@ -24,4 +24,6 @@ public interface UserFollowZoneEntityRepository extends JpaRepository<UserFollow
     @Query("select zoneId from UserFollowZoneEntity where userId = :userId")
     List<Integer> findZoneIdListByUserId(@Param("userId") Integer userId);
 
+    boolean existsByUserIdAndZoneId(int userId, int zoneId);
+
 }

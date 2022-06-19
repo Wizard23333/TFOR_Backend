@@ -3,12 +3,8 @@ package cn.edu.tongji.tfor_backend.service.impl;
 import cn.edu.tongji.tfor_backend.model.UserCollectionEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowUserEntity;
 import cn.edu.tongji.tfor_backend.model.UserFollowZoneEntity;
-import cn.edu.tongji.tfor_backend.repository.PostEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.UserCollectionEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.UserFollowUserEntityRepository;
-import cn.edu.tongji.tfor_backend.repository.UserFollowZoneEntityRepository;
+import cn.edu.tongji.tfor_backend.repository.*;
 import cn.edu.tongji.tfor_backend.service.ActionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,17 +22,33 @@ public class ActionServiceImpl implements ActionService {
     @Resource
     PostEntityRepository postEntityRepository;
 
+    @Resource
+    UserEntityRepository userEntityRepository;
+
+    @Resource
+    ZoneEntityRepository zoneEntityRepository;
+
     @Override
-    public int followZone(UserFollowZoneEntity userFollowZoneEntity){
-        System.out.println(userFollowZoneEntity.toString());
+    public boolean followZone(UserFollowZoneEntity userFollowZoneEntity){
+        if (!userEntityRepository.existsByUserId(userFollowZoneEntity.getUserId()) ||
+                !zoneEntityRepository.existsByZoneId(userFollowZoneEntity.getZoneId())) {
+            return false;
+        }
+        if(userFollowZoneEntityRepository.existsByUserIdAndZoneId(userFollowZoneEntity.getUserId(), userFollowZoneEntity.getZoneId())){
+            return false;
+        }
         userFollowZoneEntityRepository.save(userFollowZoneEntity);
-        return 0;
+        return true;
     }
 
     @Override
-    public int collectPost(UserCollectionEntity userCollectionEntity) {
+    public boolean collectPost(UserCollectionEntity userCollectionEntity) {
+        if (!userEntityRepository.existsByUserId(userCollectionEntity.getUserId()) ||
+                !postEntityRepository.existsByContentId(userCollectionEntity.getContentId())) {
+            return false;
+        }
         userCollectionEntityRepository.save(userCollectionEntity);
-        return 0;
+        return true;
     }
 
     @Override
@@ -73,9 +85,15 @@ public class ActionServiceImpl implements ActionService {
     }
 
     @Override
-    public int cancelFollowUser(int uid1,int uid2) {
+    public boolean cancelFollowUser(int uid1,int uid2) {
+        if(!userEntityRepository.existsByUserId(uid1) || !userEntityRepository.existsByUserId(uid2)) {
+            return false;
+        }
+        if(!userFollowUserEntityRepository.existsByUserFollowingIdAndUserFollowedId(uid1, uid2)) {
+            return false;
+        }
         userFollowUserEntityRepository.deleteByUsersId(uid1,uid2);
-        return 0;
+        return true;
     }
 
 

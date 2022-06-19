@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 
 public interface ActionService {
 
-    int followZone(UserFollowZoneEntity userFollowZoneEntity);
+    boolean followZone(UserFollowZoneEntity userFollowZoneEntity);
 
-    int collectPost(UserCollectionEntity userCollectionEntity);
+    boolean collectPost(UserCollectionEntity userCollectionEntity);
 
     int followUser(UserFollowUserEntity userFollowUserEntity);
 
@@ -21,5 +21,5 @@ public interface ActionService {
 
     int cancelCollectPost(int uid,String cid);
 
-    int cancelFollowUser(int uid1,int uid2);
+    boolean cancelFollowUser(int uid1,int uid2);
 }

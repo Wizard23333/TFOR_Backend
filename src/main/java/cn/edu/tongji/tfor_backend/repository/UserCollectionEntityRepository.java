@@ -19,4 +19,6 @@ public interface UserCollectionEntityRepository extends JpaRepository<UserCollec
 
     @Query("select contentId from UserCollectionEntity where userId = :userId")
     List<String> findContentIdByUserId(@Param("userId") Integer userId);
+
+
 }

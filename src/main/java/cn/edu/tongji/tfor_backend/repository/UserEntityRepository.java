@@ -54,4 +54,7 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Integer>
     int ifExistsByTel(@Param("newTelNbr") String newTelNbr);
 
     UserEntity findByUserId(Integer userId);
+
+    boolean existsByUserId(Integer userId);
+
 }
